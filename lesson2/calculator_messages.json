@@ -1,0 +1,84 @@
+{
+  "lang" : "Please select a language\n1 => English\n2 => Español\n3 => français\n4 => Deutsche\n5 => Босански српски хрватски\n6 => русский\n7 => 中国人\n8 => 日本\n9 => 한국어",
+  "en" : {
+            "welcome" : "Welcome to Calculator!",
+            "num1" : "Please input your first number...",
+            "num2" : "Please input your second number...",
+            "invalid" : "Hmm... That doesn't look like a valid number...",
+            "operation" : "What operation would you like to perform?\n1 => Addition\n2 => Subtraction\n3 => Multiplication\n4 => Division",
+            "result" : "The result is: ",
+            "repeat" : "Would you like to perform another calculation? (1 = 'yes', 0 = 'no')"
+          },
+  "fr" : {
+            "welcome" : "Bienvenue dans la calculatrice!",
+            "num1" : "Veuillez saisir votre premier numéro...",
+            "num2" : "Veuillez saisir votre deuxième numéro...",
+            "invalid" : "Hmm... Tça ne ressemble pas à un numéro valide...",
+            "operation" : "Quelle opération souhaitez-vous effectuer?\n1 => Addition\n2 => Soustraction\n3 => Multiplication\n4 => Division",
+            "result" : "Le résultat est: ",
+            "repeat" : "Souhaitez-vous effectuer un autre calcul? (1 = 'oui', 0 = 'non')"
+          },
+  "de" : {
+            "welcome" : "Willkommen beim Rechner!",
+            "num1" : "Bitte geben Sie Ihre erste Zahl ein...",
+            "num2" : "Bitte geben Sie Ihre zweite Nummer ein...",
+            "invalid" : "Hmm... Das sieht nicht nach einer gültigen Zahl aus...",
+            "operation" : "Welche Operation möchten Sie durchführen?\n1 => Zusatz\n2 => Subtraktion\n3 => Multiplikation\n4 => Einteilung",
+            "result" : "Das Ergebnis ist: ",
+            "repeat" : "Möchten Sie eine andere Berechnung durchführen? (1 = 'Jawohl', 0 = 'Nein')"
+          },
+  "es" : {
+            "welcome" : "Bienvenido a la calculadora!",
+            "num1" : "Ingrese su primer número...",
+            "num2" : "Ingrese su segundo número...",
+            "invalid" : "Hmm... Eso no parece un número válido...",
+            "operation" : "¿Qué operación le gustaría realizar?\n1 => Adición\n2 => Sustracción\n3 => Multiplicación\n4 => División",
+            "result" : "El resultado es: ",
+            "repeat" : "¿Le gustaría realizar otro cálculo? (1 = 'si', 0 = 'no')"
+          },
+  "sr" : {
+            "welcome" : "Добро дошли у Калкулатор!",
+            "num1" : "Унесите свој први број...",
+            "num2" : "Унесите други број...",
+            "invalid" : "Хмм... То не изгледа као важећи број...",
+            "operation" : "Коју операцију желите да изведете?\n1 => Додатак\n2 => Одузимање\n3 => Множење\n4 => Дивизија",
+            "result" : "Резултат је: ",
+            "repeat" : "Да ли желите да извршите још једно израчунавање? (1 = 'да', 0 = 'не')"
+          },
+  "ru" : {
+            "welcome" : "Добро пожаловать в калькулятор!",
+            "num1" : "Пожалуйста, введите свой первый номер...",
+            "num2" : "Пожалуйста, введите свой второй номер...",
+            "invalid" : "Хм... Это не похоже на действительное число...",
+            "operation" : "Какую операцию вы хотите провести?\n1 => Добавление\n2 => Вычитание\n3 => Умножение\n4 => Разделение",
+            "result" : "Результат: ",
+            "repeat" : "Хотите провести еще один расчет? (1 = 'да', 0 = 'нет')"
+          },
+  "jp" : {
+            "welcome" : "電卓へようこそ!",
+            "num1" : "最初の番号を入力してください...",
+            "num2" : "2番目の番号を入力してください...",
+            "invalid" : "うーん...それは有効な番号のようには見えません",
+            "operation" : "どのような操作を実行しますか?\n1 => 添加\n2 => 減算\n3 => 乗算\n4 => 分割",
+            "result" : "結果は: ",
+            "repeat" : "別の計算を実行しますか? (1 = 'はい', 0 = 'いいえ')"
+          },
+  "kr" : {
+            "welcome" : "계산기에 오신 것을 환영합니다!",
+            "num1" : "첫 번째 번호를 입력하세요...",
+            "num2" : "두 번째 번호를 입력하세요...",
+            "invalid" : "흠... 유효한 숫자가 아닌 것 같습니다",
+            "operation" : "어떤 작업을 수행하시겠습니까?\n1 => 덧셈\n2 => 빼기\n3 => 곱셈\n4 => 분할",
+            "result" : "결과는: ",
+            "repeat" : "다른 계산을 수행하시겠습니까? (1 = '예', 0 = '아니요')"
+          },
+  "ca" : {
+            "welcome" : "欢迎使用计算器!",
+            "num1" : "请输入您的第一个数字...",
+            "num2" : "请输入您的第二个数字...",
+            "invalid" : "嗯... 这看起来不是一个有效的数字",
+            "operation" : "您想执行什么操作?\n1 => 添加\n2 => 减法\n3 => 乘法\n4 => 分配",
+            "result" : "结果是: ",
+            "repeat" : "您想再进行一次计算吗? (1 = '是的', 0 = '不')"
+          }
+}
