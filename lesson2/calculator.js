@@ -50,7 +50,7 @@ switch (lang) {
     lang = "jp";
     break;
   case '9':
-    lang = "jp";
+    lang = "kr";
     break;
 }
 
@@ -105,5 +105,5 @@ while (true) {
 
   prompt(messages[lang].repeat);
   let repeat = readline.question();
-  if (repeat !== 1) break;
+  if (repeat !== '1') break;
 }
