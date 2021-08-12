@@ -5,7 +5,7 @@
 // Print the results to the terminal.
 
 const readline = require('readline-sync');
-const messages = require('./calculator_messages.json')
+const messages = require('./calculator_messages.json');
 
 function prompt(message) {
   console.log(`=> ${message}`);
