@@ -22,68 +22,113 @@ let m = p * (j / (1 - Math.pow((1 + j), (-n))));
 */
 
 const readline = require('readline-sync');
-const WELCOME = '==============================\n+                            +\n+       Welcome to the       +\n+  Loan Killing Calculator!  +\n+                            +\n+    Death to All Loans!     +\n+                            +\n==============================\n';
 
-function prompt(message) {
-  if (message === WELCOME) {
-    console.log(message);
-  } else {
-    console.log('>> ' + message);
-  }
-}
+let messages = [];
+let welcome = '==============================\n+                            +\n+       Welcome to the       +\n+  Loan Killing Calculator!  +\n+                            +\n+    Death to All Loans!     +\n+                            +\n==============================\n';
+messages.push(welcome);
 
 function clearScreen() {
   console.clear();
-  prompt(WELCOME);
+  messages.forEach(message => console.log(message));
 }
 
+function invalidInput() {
+  messages.pop();
+  console.log('Hmm...That doesn\'t look like a valid number...');
+  console.log('Please read the formatting instructions and try again...');
+}
+
+function perPayment(principal, perRate, perDur) {
+  let pay = principal * (perRate / (1 - Math.pow((1 + perRate), (-perDur))));
+  return decimalRound(pay);
+}
+
+// addresses parseFloat rounding issue due to floating point storage
 function decimalRound(value) {
   let decimalPlaces = 2;
   return Number(Math.round(parseFloat(value + 'e' + decimalPlaces)) + 'e-' + decimalPlaces);
 }
 
-function repay(amount, rate, duration) {
-  let payment = amount * (rate / (1 - Math.pow((1 + rate), (-duration))));
-  return decimalRound(payment);
+function loanFormat(loanAnswer) {
+  let loanMessage = loanAnswer.trim();
+  loanMessage = Number(loanMessage).toLocaleString();
+  let loanAmount = loanMessage.replace(/,/g,"");
+  if (loanMessage[0] !== '$') {
+    loanMessage = '$' + loanMessage;
+  }
+  messages.push(loanMessage);
+  loanAmount = loanAmount.replace('$',"");
+  return decimalRound(loanAmount);
+}
+
+function rateFormat(rateAnswer) {
+  let rateMessage = rateAnswer.trim();
+  let rateAmount = rateMessage;
+  if (rateMessage[rateMessage.length - 1] !== '%') {
+    rateMessage += '%';
+  }
+  if (rateMessage.startsWith('.')) {
+    rateMessage = '0' + rateMessage;
+  }
+  messages.push(rateMessage);
+  rateAmount = rateAmount.replace('%',"");
+  rateAmount = (rateAmount / 100) / 12;  //hardcoded monthly periodicRate
+
+  return decimalRound(rateAmount);
+}
+
+function loanInput() {
+  console.log('LOAN AMOUNT');
+  console.log('+++++++++Instructions+++++++++');
+  console.log('Valid format | $100,000.00 and $100,000 (with $)');
+  console.log('Valid format |  100,000.00 and  100,000 (with ,)');
+  console.log('Valid format |   100000.00 and   100000 (no $ or ,)');
+  console.log('WARNING: Using decimals instead of commas, other currencies, or non-numerical values will throw errors');
+  console.log('++++++++++++++++++++++++++++++');
+  console.log('\n>> How much money do you plan to borrow?');
+
+  let loanAnswer = loanFormat(readline.question());
+
+  while (isNaN(loanAnswer)) {
+    invalidInput();
+    loanAnswer = loanFormat(readline.question());
+  }
+  return loanAnswer;
+}
+
+function rateInput() {
+  console.log('ANNUAL PERCENTAGE RATE');
+  console.log('+++++++++Instructions+++++++++');
+  console.log('Valid format | 5.7% and 5% (with %)');
+  console.log('Valid format | 5.7  and 5  (no %)');
+  console.log('WARNING | .05 will be calculated as 0.05% not as 5% !');
+  console.log('WARNING | Using commas instead of decimals, or non-numerical values will throw errors!');
+  console.log('++++++++++++++++++++++++++++++');
+  console.log('\n>> What is your loan Annual Percentage Rate (APR)?');
+
+  let rateAnswer = rateFormat(readline.question());
+
+  while (isNaN(rateAnswer)) {
+    invalidInput();
+    rateAnswer = rateFormat(readline.question());
+  }
+  return rateAnswer;
 }
 
 clearScreen();
-prompt('Press Enter to Continue...');
+
+console.log('Press Enter to Continue...');
 readline.question();
+clearScreen();
+
+let loanAmount = loanInput();
 
 clearScreen();
 
-prompt('How much money do you owe or want to finance?');
-prompt('Please enter without currency or punctuation like: 25000');
-
-let loanAmount = decimalRound(readline.question());
-clearScreen();
-prompt(`Loan Amount: $${loanAmount}`);
-console.log('==============================');
-
-prompt('What is your Annual Percentage Rate?');
-prompt('Please enter it as a whole number to two places like 3.49');
-let rate = decimalRound(readline.question());
-let monthlyRate = (rate / 100) / 12;
-clearScreen();
-prompt(`Loan Amount: $${loanAmount}`);
-prompt(`APR: ${rate}%`);
-console.log('==============================');
-
-prompt('What is the duration / remainder of your loan in months?');
-let months = Number(readline.question());
-clearScreen();
-prompt(`Loan Amount: $${loanAmount}`);
-prompt(`APR: ${rate}%`);
-prompt(`Duration: ${months} months`);
-console.log('==============================');
-
-let result = repay(loanAmount, monthlyRate, months);
+let rateAmount = rateInput();
 
 clearScreen();
-prompt(`Loan Amount: $${loanAmount}`);
-prompt(`APR: ${rate}%`);
-prompt(`Duration: ${months} months`);
-console.log('==============================');
-prompt(`${months} monthly payments of: $${result}`);
-console.log('==============================');
+
+console.log(`Loan Amount: ${loanAmount}`);
+console.log(`Rate Amount: ${rateAmount}`);
+console.log(messages);
