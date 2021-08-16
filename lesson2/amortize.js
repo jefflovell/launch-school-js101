@@ -23,22 +23,22 @@ function decimalRound(value, places) {
   return Number(Math.round(parseFloat(value + 'e' + places)) + 'e-' + places);
 }
 
-function loanFormat(loanAnswer) {
-  let loanMessage = loanAnswer.trim();
-  if (!loanMessage.includes(',')) {
-    loanMessage = Number(loanMessage).toLocaleString();
+function formatPrincipal(principal) {
+  let principalMessage = principal.trim();
+  if (!principalMessage.includes(',')) {
+    principalMessage = Number(principalMessage).toLocaleString();
   }
-  let loanAmount = loanMessage.replace(/,/g,"");
-  if (loanMessage[0] !== '$') {
-    loanMessage = '$' + loanMessage;
+  let principalAmount = principalMessage.replace(/,/g,"");
+  if (principalMessage[0] !== '$') {
+    principalMessage = '$' + principalMessage;
   }
-  messages.push(`Principal: ${loanMessage}`);
-  loanAmount = loanAmount.replace('$',"");
-  return decimalRound(loanAmount, 2);
+  messages.push(`Principal: ${principalMessage}`);
+  principalAmount = principalAmount.replace('$',"");
+  return decimalRound(principalAmount, 2);
 }
 
-function rateFormat(rateAnswer) {
-  let rateMessage = rateAnswer.trim();
+function formatRate(rate) {
+  let rateMessage = rate.trim();
   let rateAmount = rateMessage;
   if (rateMessage[rateMessage.length - 1] !== '%') {
     rateMessage += '%';
@@ -52,8 +52,8 @@ function rateFormat(rateAnswer) {
   return decimalRound(rateAmount, 9);
 }
 
-function termFormat(termAnswer) {
-  let termMessage = termAnswer.trim();
+function formatTerm(term) {
+  let termMessage = term.trim();
   let termAmount = termMessage.slice(0, -1);
   if (termMessage[termMessage.length - 1] === ('y' || 'Y')) {
     termMessage = termMessage.slice(0, -1) + ' years';
@@ -65,17 +65,17 @@ function termFormat(termAnswer) {
   return decimalRound(termAmount, 0);
 }
 
-function resultFormat(result) {
-  let commas = Number(result).toLocaleString();
-  if (commas[commas.length - 2] === '.') {
-    commas += '0';
+function formatResult(result) {
+  let resultWithCommas = Number(result).toLocaleString();
+  if (resultWithCommas[resultWithCommas.length - 2] === '.') {
+    resultWithCommas += '0';
   }
-  commas = '$' + commas;
-  return commas;
+  let resultWithDollarAndCommas = '$' + resultWithCommas;
+  return resultWithDollarAndCommas;
 }
 
-function loanInput() {
-  console.log('\nLOAN AMOUNT');
+function inputPrincipal() {
+  console.log('\nLOAN AMOUNT (PRINCIPAL)');
   console.log('+++++++++Instructions+++++++++');
   console.log('\nValid format | $100,000.00 and $100,000 (with $)');
   console.log('\nValid format |  100,000.00 and  100,000 (with ,)');
@@ -84,16 +84,16 @@ function loanInput() {
   console.log('\n++++++++++++++++++++++++++++++');
   console.log('\n>> How much money do you plan to borrow?');
 
-  let loanAnswer = loanFormat(readline.question());
+  let principal = formatPrincipal(readline.question());
 
-  while (isNaN(loanAnswer)) {
+  while (isNaN(principal)) {
     invalidInput();
-    loanAnswer = loanFormat(readline.question());
+    principal = formatPrincipal(readline.question());
   }
-  return loanAnswer;
+  return principal;
 }
 
-function rateInput() {
+function inputRate() {
   console.log('\nANNUAL PERCENTAGE RATE');
   console.log('+++++++++Instructions+++++++++');
   console.log('\nValid format | 5.7% and 5% (with %)');
@@ -103,16 +103,16 @@ function rateInput() {
   console.log('\n++++++++++++++++++++++++++++++');
   console.log('\n>> What is your loan\'s Annual Percentage Rate (APR)?');
 
-  let rateAnswer = rateFormat(readline.question());
+  let rate = formatRate(readline.question());
 
-  while (isNaN(rateAnswer)) {
+  while (isNaN(rate)) {
     invalidInput();
-    rateAnswer = rateFormat(readline.question());
+    rate = formatRate(readline.question());
   }
-  return rateAnswer;
+  return rate;
 }
 
-function termInput() {
+function inputTerm() {
   console.log('\nLOAN DURATION (TERM)');
   console.log('+++++++++Instructions+++++++++');
   console.log('\nThis calculator supports loan durations in months or years.');
@@ -123,13 +123,13 @@ function termInput() {
   console.log('\n++++++++++++++++++++++++++++++');
   console.log('\n>> What is the duration of your loan?  Please enter a whole number followed by the letter \'y\' for years, or \'m\' for months. E.g. 30y or 60m');
 
-  let termAnswer = termFormat(readline.question());
+  let term = formatTerm(readline.question());
 
-  while (isNaN(termAnswer)) {
+  while (isNaN(term)) {
     invalidInput();
-    termAnswer = termFormat(readline.question());
+    term = formatTerm(readline.question());
   }
-  return termAnswer;
+  return term;
 }
 
 let repeat;
@@ -142,24 +142,24 @@ do {
   readline.question();
   clearScreen();
 
-  let loanAmount = loanInput();
+  let principal = inputPrincipal();
   clearScreen();
 
-  let rateAmount = rateInput();
+  let rate = inputRate();
   clearScreen();
 
-  let termAmount = termInput();
-  let result = perPayment(loanAmount, rateAmount, termAmount);
+  let term = inputTerm();
+  let result = perPayment(principal, rate, term);
   let monthlyPayment = decimalRound(result, 2);
-  let interest = decimalRound((monthlyPayment * termAmount) - loanAmount, 2);
-  let totalCost = decimalRound(interest + loanAmount, 2);
-  let monthlyPaymentFormatted = resultFormat(monthlyPayment);
-  let interestFormatted = resultFormat(interest);
-  let totalCostFormatted = resultFormat(totalCost);
+  let interest = decimalRound((monthlyPayment * term) - principal, 2);
+  let totalCost = decimalRound(interest + principal, 2);
+  let monthlyPaymentFormatted = formatResult(monthlyPayment);
+  let interestFormatted = formatResult(interest);
+  let totalCostFormatted = formatResult(totalCost);
   clearScreen();
 
   console.log('\n============RESULT============');
-  console.log(`\nMonthly Payment: ${monthlyPaymentFormatted} for ${termAmount} months.\nTotal Interest Cost: ${interestFormatted}\nTotal Repayment Amount ${totalCostFormatted}`);
+  console.log(`\nMonthly Payment: ${monthlyPaymentFormatted} for ${term} months.\nTotal Interest Cost: ${interestFormatted}\nTotal Repayment Amount ${totalCostFormatted}`);
   console.log('\n==============================');
 
   console.log(`\nEnter 'y' to run another calculation, 'n' to exit...`);
