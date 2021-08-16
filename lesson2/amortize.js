@@ -32,7 +32,7 @@ function loanFormat(loanAnswer) {
   if (loanMessage[0] !== '$') {
     loanMessage = '$' + loanMessage;
   }
-  messages.push(loanMessage);
+  messages.push(`Principal: ${loanMessage}`);
   loanAmount = loanAmount.replace('$',"");
   return decimalRound(loanAmount, 2);
 }
@@ -46,7 +46,7 @@ function rateFormat(rateAnswer) {
   if (rateMessage.startsWith('.')) {
     rateMessage = '0' + rateMessage;
   }
-  messages.push(rateMessage);
+  messages.push(`APR: ${rateMessage}`);
   rateAmount = rateAmount.replace('%',"");
   rateAmount = (rateAmount / 100) / 12;  //hardcoded monthly periodicRate
   return decimalRound(rateAmount, 9);
@@ -61,7 +61,7 @@ function termFormat(termAnswer) {
   } else {
     termMessage = termMessage.slice(0,-1) + ' months';
   }
-  messages.push(termMessage);
+  messages.push(`Term: ${termMessage}`);
   return decimalRound(termAmount, 0);
 }
 
@@ -77,11 +77,11 @@ function resultFormat(result) {
 function loanInput() {
   console.log('\nLOAN AMOUNT');
   console.log('+++++++++Instructions+++++++++');
-  console.log('Valid format | $100,000.00 and $100,000 (with $)');
-  console.log('Valid format |  100,000.00 and  100,000 (with ,)');
-  console.log('Valid format |   100000.00 and   100000 (no $ or ,)');
-  console.log('WARNING: Using decimals instead of commas, other currencies, or non-numerical values will throw errors');
-  console.log('++++++++++++++++++++++++++++++');
+  console.log('\nValid format | $100,000.00 and $100,000 (with $)');
+  console.log('\nValid format |  100,000.00 and  100,000 (with ,)');
+  console.log('\nValid format |   100000.00 and   100000 (no $ or ,)');
+  console.log('\nWARNING: Using decimals instead of commas, other currencies, or non-numerical values will throw errors!');
+  console.log('\n++++++++++++++++++++++++++++++');
   console.log('\n>> How much money do you plan to borrow?');
 
   let loanAnswer = loanFormat(readline.question());
@@ -96,11 +96,11 @@ function loanInput() {
 function rateInput() {
   console.log('\nANNUAL PERCENTAGE RATE');
   console.log('+++++++++Instructions+++++++++');
-  console.log('Valid format | 5.7% and 5% (with %)');
-  console.log('Valid format | 5.7  and 5  (no %)');
-  console.log('WARNING | .05 will be calculated as 0.05% not as 5% !');
-  console.log('WARNING | Using commas instead of decimals, or non-numerical values will throw errors!');
-  console.log('++++++++++++++++++++++++++++++');
+  console.log('\nValid format | 5.7% and 5% (with %)');
+  console.log('\nValid format | 5.7  and 5  (no %)');
+  console.log('\nWARNING | .05 will be calculated as 0.05% not as 5% !');
+  console.log('\nWARNING | Using commas instead of decimals, or non-numerical values will throw errors!');
+  console.log('\n++++++++++++++++++++++++++++++');
   console.log('\n>> What is your loan\'s Annual Percentage Rate (APR)?');
 
   let rateAnswer = rateFormat(readline.question());
@@ -115,12 +115,12 @@ function rateInput() {
 function termInput() {
   console.log('\nLOAN DURATION (TERM)');
   console.log('+++++++++Instructions+++++++++');
-  console.log('This calculator supports loan durations in months or years.');
-  console.log('You will be prompted to choose which format you would like to use.');
-  console.log('WARNING | Decimals will be rounded to the nearest whole number and can cause an inaccurate calculation!');
-  console.log('If you need to enter years plus a fractional year, it is recommended to multiple years by 12 and add the remaining months instead of using decimals.');
-  console.log('WARNING | non-numerical values will throw errors!');
-  console.log('++++++++++++++++++++++++++++++');
+  console.log('\nThis calculator supports loan durations in months or years.');
+  console.log('\nYou will be prompted to choose which format you would like to use.');
+  console.log('\nWARNING | Decimals will be rounded to the nearest whole number and can cause an inaccurate calculation!');
+  console.log('  -If you need to enter years plus a fractional year, it is recommended to instead multiply years by 12 and add the remaining months.');
+  console.log('\nWARNING | non-numerical values will throw errors!');
+  console.log('\n++++++++++++++++++++++++++++++');
   console.log('\n>> What is the duration of your loan?  Please enter a whole number followed by the letter \'y\' for years, or \'m\' for months. E.g. 30y or 60m');
 
   let termAnswer = termFormat(readline.question());
@@ -158,10 +158,16 @@ do {
   let totalCostFormatted = resultFormat(totalCost);
   clearScreen();
 
+  console.log('\n============RESULT============');
   console.log(`\nMonthly Payment: ${monthlyPaymentFormatted} for ${termAmount} months.\nTotal Interest Cost: ${interestFormatted}\nTotal Repayment Amount ${totalCostFormatted}`);
+  console.log('\n==============================');
 
-  console.log(`\nEnter 'y' to run another calculation, any other key to exit...`);
-  repeat = readline.question();
+  console.log(`\nEnter 'y' to run another calculation, 'n' to exit...`);
+  repeat = readline.question().toLowerCase();
+  while (repeat !== 'n' && repeat !== 'y') {
+    console.log("please enter 'y' or 'n'");
+    repeat = readline.question().toLowerCase();
+  }
   messages = [];
 
 } while (repeat === 'y');
