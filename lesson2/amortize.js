@@ -1,31 +1,6 @@
-/*
-REQUIREMENTS
-
-+loan amount
-+Annual Percentage Rate
-+loan duration
-
-=
-
-+monthly interest rate
-+loan duration in months
-
-FORMULA
-
-m = monthly payment
-p = loan amount
-j = monthly interest rate
-n = loan duration in months
-
-let m = p * (j / (1 - Math.pow((1 + j), (-n))));
-
-*/
-
-const readline = require('readline-sync');
-
+let readline = require('readline-sync');
 let messages = [];
 let welcome = '==============================\n+                            +\n+       Welcome to the       +\n+  Loan Killing Calculator!  +\n+                            +\n+    Death to All Loans!     +\n+                            +\n==============================\n';
-messages.push(welcome);
 
 function clearScreen() {
   console.clear();
@@ -38,27 +13,28 @@ function invalidInput() {
   console.log('Please read the formatting instructions and try again...');
 }
 
-function perPayment(principal, perRate, perDur) {
-  let pay = principal * (perRate / (1 - Math.pow((1 + perRate), (-perDur))));
-  return decimalRound(pay);
+function perPayment(principal, perRate, perTerm) {
+  let pay = principal * (perRate / (1 - Math.pow((1 + perRate), (-perTerm))));
+  return decimalRound(pay, 2);
 }
 
 // addresses parseFloat rounding issue due to floating point storage
-function decimalRound(value) {
-  let decimalPlaces = 2;
-  return Number(Math.round(parseFloat(value + 'e' + decimalPlaces)) + 'e-' + decimalPlaces);
+function decimalRound(value, places) {
+  return Number(Math.round(parseFloat(value + 'e' + places)) + 'e-' + places);
 }
 
 function loanFormat(loanAnswer) {
   let loanMessage = loanAnswer.trim();
-  loanMessage = Number(loanMessage).toLocaleString();
+  if (!loanMessage.includes(',')) {
+    loanMessage = Number(loanMessage).toLocaleString();
+  }
   let loanAmount = loanMessage.replace(/,/g,"");
   if (loanMessage[0] !== '$') {
     loanMessage = '$' + loanMessage;
   }
   messages.push(loanMessage);
   loanAmount = loanAmount.replace('$',"");
-  return decimalRound(loanAmount);
+  return decimalRound(loanAmount, 2);
 }
 
 function rateFormat(rateAnswer) {
@@ -73,12 +49,33 @@ function rateFormat(rateAnswer) {
   messages.push(rateMessage);
   rateAmount = rateAmount.replace('%',"");
   rateAmount = (rateAmount / 100) / 12;  //hardcoded monthly periodicRate
+  return decimalRound(rateAmount, 9);
+}
 
-  return decimalRound(rateAmount);
+function termFormat(termAnswer) {
+  let termMessage = termAnswer.trim();
+  let termAmount = termMessage.slice(0, -1);
+  if (termMessage[termMessage.length - 1] === ('y' || 'Y')) {
+    termMessage = termMessage.slice(0, -1) + ' years';
+    termAmount *= 12;
+  } else {
+    termMessage = termMessage.slice(0,-1) + ' months';
+  }
+  messages.push(termMessage);
+  return decimalRound(termAmount, 0);
+}
+
+function resultFormat(result) {
+  let commas = Number(result).toLocaleString();
+  if (commas[commas.length - 2] === '.') {
+    commas += '0';
+  }
+  commas = '$' + commas;
+  return commas;
 }
 
 function loanInput() {
-  console.log('LOAN AMOUNT');
+  console.log('\nLOAN AMOUNT');
   console.log('+++++++++Instructions+++++++++');
   console.log('Valid format | $100,000.00 and $100,000 (with $)');
   console.log('Valid format |  100,000.00 and  100,000 (with ,)');
@@ -97,14 +94,14 @@ function loanInput() {
 }
 
 function rateInput() {
-  console.log('ANNUAL PERCENTAGE RATE');
+  console.log('\nANNUAL PERCENTAGE RATE');
   console.log('+++++++++Instructions+++++++++');
   console.log('Valid format | 5.7% and 5% (with %)');
   console.log('Valid format | 5.7  and 5  (no %)');
   console.log('WARNING | .05 will be calculated as 0.05% not as 5% !');
   console.log('WARNING | Using commas instead of decimals, or non-numerical values will throw errors!');
   console.log('++++++++++++++++++++++++++++++');
-  console.log('\n>> What is your loan Annual Percentage Rate (APR)?');
+  console.log('\n>> What is your loan\'s Annual Percentage Rate (APR)?');
 
   let rateAnswer = rateFormat(readline.question());
 
@@ -115,20 +112,58 @@ function rateInput() {
   return rateAnswer;
 }
 
-clearScreen();
+function termInput() {
+  console.log('\nLOAN DURATION (TERM)');
+  console.log('+++++++++Instructions+++++++++');
+  console.log('This calculator supports loan durations in months or years.');
+  console.log('You will be prompted to choose which format you would like to use.');
+  console.log('WARNING | Decimals will be rounded to the nearest whole number and can cause an inaccurate calculation!');
+  console.log('If you need to enter years plus a fractional year, it is recommended to multiple years by 12 and add the remaining months instead of using decimals.');
+  console.log('WARNING | non-numerical values will throw errors!');
+  console.log('++++++++++++++++++++++++++++++');
+  console.log('\n>> What is the duration of your loan?  Please enter a whole number followed by the letter \'y\' for years, or \'m\' for months. E.g. 30y or 60m');
 
-console.log('Press Enter to Continue...');
-readline.question();
-clearScreen();
+  let termAnswer = termFormat(readline.question());
 
-let loanAmount = loanInput();
+  while (isNaN(termAnswer)) {
+    invalidInput();
+    termAnswer = termFormat(readline.question());
+  }
+  return termAnswer;
+}
 
-clearScreen();
+let repeat;
+do {
+  messages.push(welcome);
 
-let rateAmount = rateInput();
+  clearScreen();
 
-clearScreen();
+  console.log('Press Enter to Continue...');
+  readline.question();
+  clearScreen();
 
-console.log(`Loan Amount: ${loanAmount}`);
-console.log(`Rate Amount: ${rateAmount}`);
-console.log(messages);
+  let loanAmount = loanInput();
+  clearScreen();
+
+  let rateAmount = rateInput();
+  clearScreen();
+
+  let termAmount = termInput();
+  let result = perPayment(loanAmount, rateAmount, termAmount);
+  let monthlyPayment = decimalRound(result, 2);
+  let interest = decimalRound((monthlyPayment * termAmount) - loanAmount, 2);
+  let totalCost = decimalRound(interest + loanAmount, 2);
+  let monthlyPaymentFormatted = resultFormat(monthlyPayment);
+  let interestFormatted = resultFormat(interest);
+  let totalCostFormatted = resultFormat(totalCost);
+  clearScreen();
+
+  console.log(`\nMonthly Payment: ${monthlyPaymentFormatted} for ${termAmount} months.\nTotal Interest Cost: ${interestFormatted}\nTotal Repayment Amount ${totalCostFormatted}`);
+
+  console.log(`\nEnter 'y' to run another calculation, any other key to exit...`);
+  repeat = readline.question();
+  messages = [];
+
+} while (repeat === 'y');
+
+console.log('Goodbye!');
