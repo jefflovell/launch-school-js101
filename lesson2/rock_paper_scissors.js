@@ -32,7 +32,6 @@ function computerWins(choice, computerChoice) {
 
 function displayWinner(choice, computerChoice) {
   let winner = 0;
-
   prompt(`You chose ${choice.toUpperCase()}, computer chose ${computerChoice.toUpperCase()}`);
 
   if (playerWins(choice, computerChoice)) {
@@ -126,7 +125,7 @@ while (true) {
     updateScore(winner);
     displayScore();
 
-    if ((playerScore >= 3) || (computerScore >= 3) || (roundNumber > 5)) break;
+    if ((playerScore >= 3) || (computerScore >= 3) || (roundNumber >= 5)) break;
   }
 
   prompt(`Final Score: Player |${playerScore}| :::VS::: Computer |${computerScore}|\n`);
