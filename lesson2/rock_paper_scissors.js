@@ -19,17 +19,6 @@ function playerWins(choice, computerChoice) {
   return false;
 }
 
-function computerWins(choice, computerChoice) {
-  if ((choice === 'rock' && (computerChoice === 'paper' || computerChoice === 'spock')) ||
-    (choice === 'paper' && (computerChoice === 'scissors' || computerChoice === 'lizard')) ||
-    (choice === 'scissors' && (computerChoice === 'rock' || computerChoice === 'spock')) ||
-    (choice === 'lizard' && (computerChoice === 'scissors' || computerChoice === 'rock')) ||
-    (choice === 'spock' && (computerChoice === 'paper' || computerChoice === 'lizard'))) {
-    return true;
-  }
-  return false;
-}
-
 function displayWinner(choice, computerChoice) {
   let winner = 0;
   prompt(`You chose ${choice.toUpperCase()}, computer chose ${computerChoice.toUpperCase()}`);
@@ -37,11 +26,11 @@ function displayWinner(choice, computerChoice) {
   if (playerWins(choice, computerChoice)) {
     prompt("You Win!");
     winner = 1;
-  } else if (computerWins(choice, computerChoice)) {
+  } else if (choice === computerChoice) {
+    prompt("It's a Tie!");
+  } else {
     prompt("Computer Wins!");
     winner = 2;
-  } else {
-    prompt("It's a Tie!");
   }
   return winner;
 }
