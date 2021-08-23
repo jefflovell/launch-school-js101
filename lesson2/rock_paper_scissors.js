@@ -69,7 +69,10 @@ function finalWinner(playerScore, computerScore) {
   }
 }
 
-function playAgain(answer) {
+function askToPlayAgain() {
+  prompt('Do you want to play again (y/n)?');
+  let answer = readline.question().toLowerCase();
+
   while (answer !== 'n' && answer !== 'y') {
     prompt('Please enter "y" or "n".');
     answer = readline.question().toLowerCase();
@@ -126,8 +129,7 @@ while (true) {
   prompt(`Final Score: Player |${scoreBoard.player}| :::VS::: Computer |${scoreBoard.computer}|\n`);
   prompt(finalWinner(scoreBoard.player, scoreBoard.computer));
 
-  prompt('Do you want to play again (y/n)?');
-  let answer = playAgain(readline.question());
+  let answer = askToPlayAgain();
 
   if (answer !== 'y') {
     prompt('Goodbye!');
