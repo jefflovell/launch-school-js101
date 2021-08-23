@@ -2,7 +2,15 @@ const readline = require('readline-sync');
 const DISPLAY_CHOICES = ['[r]ock', '[p]aper', '[s]cissors', '[l]izard', 'sp[o]ck'];
 const VALID_CHOICES_LONG = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
 const VALID_CHOICES_SHORT = ['r', 'p', 's', 'l', 'o'];
-const RULES = 'Best of 5 rounds or first to 3 wins.\n\nROCK breaks SCISSORS and crushes LIZARD.\nPAPER covers ROCK and disproves SPOCK.\nSCISSORS cuts PAPER and decapitates LIZARD.\nLIZARD eats PAPER and poisons SPOCK.\nSPOCK vaporizes ROCK and dismantles SCISSORS.\n\nGood luck!\n';
+const MAX_ROUNDS = 5;
+const WIN_SCORE = 3;
+const RULES = `Best of ${MAX_ROUNDS} rounds or first to ${WIN_SCORE} wins.\n\nROCK breaks SCISSORS and crushes LIZARD.\nPAPER covers ROCK and disproves SPOCK.\nSCISSORS cuts PAPER and decapitates LIZARD.\nLIZARD eats PAPER and poisons SPOCK.\nSPOCK vaporizes ROCK and dismantles SCISSORS.\n\nGood luck!\n`;
+
+let scoreBoard = {
+  player: 0,
+  computer: 0,
+  round: 0
+};
 
 function prompt(message) {
   console.log(`=> ${message}`);
@@ -35,24 +43,20 @@ function displayWinner(choice, computerChoice) {
   return winner;
 }
 
-let playerScore = 0;
-let computerScore = 0;
-let roundNumber = 0;
-
 function updateScore(winner) {
-  if (winner === 1) playerScore += 1;
-  if (winner === 2) computerScore += 1;
-  roundNumber += 1;
+  if (winner === 1) scoreBoard.player += 1;
+  if (winner === 2) scoreBoard.computer += 1;
+  scoreBoard.round += 1;
 }
 
 function displayScore() {
-  prompt(`Current Score: Player |${playerScore}| :::ROUND ${roundNumber}::: Computer |${computerScore}|`);
+  prompt(`Current Score: Player |${scoreBoard.player}| :::ROUND ${scoreBoard.round}::: Computer |${scoreBoard.computer}|`);
 }
 
 function resetScore() {
-  playerScore = 0;
-  computerScore = 0;
-  roundNumber = 0;
+  scoreBoard.player = 0;
+  scoreBoard.computer = 0;
+  scoreBoard.round = 0;
 }
 
 function finalWinner(playerScore, computerScore) {
@@ -66,7 +70,7 @@ function finalWinner(playerScore, computerScore) {
 }
 
 function playAgain(answer) {
-  while (answer[0] !== 'n' && answer[0] !== 'y') {
+  while (answer !== 'n' && answer !== 'y') {
     prompt('Please enter "y" or "n".');
     answer = readline.question().toLowerCase();
   }
@@ -114,16 +118,18 @@ while (true) {
     updateScore(winner);
     displayScore();
 
-    if ((playerScore >= 3) || (computerScore >= 3) || (roundNumber >= 5)) break;
+    if ((scoreBoard.player === WIN_SCORE) ||
+        (scoreBoard.computer === WIN_SCORE) ||
+        (scoreBoard.round === MAX_ROUNDS)) break;
   }
 
-  prompt(`Final Score: Player |${playerScore}| :::VS::: Computer |${computerScore}|\n`);
-  prompt(finalWinner(playerScore, computerScore));
+  prompt(`Final Score: Player |${scoreBoard.player}| :::VS::: Computer |${scoreBoard.computer}|\n`);
+  prompt(finalWinner(scoreBoard.player, scoreBoard.computer));
 
   prompt('Do you want to play again (y/n)?');
   let answer = playAgain(readline.question());
 
-  if (answer[0] !== 'y') {
+  if (answer !== 'y') {
     prompt('Goodbye!');
     break;
   } else {
