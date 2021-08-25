@@ -1,27 +1,87 @@
 const readline = require('readline-sync');
-const DISPLAY_CHOICES = ['[r]ock', '[p]aper', '[s]cissors', '[l]izard', 'sp[o]ck'];
-const VALID_CHOICES_LONG = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
-const VALID_CHOICES_SHORT = ['r', 'p', 's', 'l', 'o'];
-const MAX_ROUNDS = 5;
-const WIN_SCORE = 3;
-const RULES = `Best of ${MAX_ROUNDS} rounds or first to ${WIN_SCORE} wins.\n\nROCK breaks SCISSORS and crushes LIZARD.\nPAPER covers ROCK and disproves SPOCK.\nSCISSORS cuts PAPER and decapitates LIZARD.\nLIZARD eats PAPER and poisons SPOCK.\nSPOCK vaporizes ROCK and dismantles SCISSORS.\n\nGood luck!\n`;
-
-let scoreBoard = {
+const DISPLAY_CHOICES = [
+  '[r]ock',
+  '[p]aper',
+  '[s]cissors',
+  '[l]izard',
+  'sp[o]ck'
+];
+const VALID_CHOICES_LONG = [
+  'rock',
+  'paper',
+  'scissors',
+  'lizard',
+  'spock'
+];
+const VALID_CHOICES_SHORT = [
+  'r',
+  'p',
+  's',
+  'l',
+  'o'
+];
+const CHOICES = {
+  r: { fullName: 'rock', beats: ['s', 'l'] },
+  p: { fullName: 'paper', beats: ['r', 's'] },
+  s: { fullName: 'scissors', beats: ['p', 'l'] },
+  l: { fullName: 'lizard', beats: ['o', 'p' ] },
+  o: { fullName: 'spock', beats: ['r', 's'] }
+};
+const scoreBoard = {
   player: 0,
   computer: 0,
   round: 0
 };
+const MAX_ROUNDS = 5;
+const WIN_SCORE = 3;
+const RULES = `Best of ${MAX_ROUNDS} rounds or first to ${WIN_SCORE} wins.\n\nROCK breaks SCISSORS and crushes LIZARD.\nPAPER covers ROCK and disproves SPOCK.\nSCISSORS cuts PAPER and decapitates LIZARD.\nLIZARD eats PAPER and poisons SPOCK.\nSPOCK vaporizes ROCK and dismantles SCISSORS.\n\nGood luck!\n`;
 
 function prompt(message) {
   console.log(`=> ${message}`);
 }
 
+function inputPlayerChoice() {
+  prompt(`Choose one by typing the word or the letter in [brackets]:\n=>${DISPLAY_CHOICES.join(', ')}`);
+  let choice = readline.question().toLowerCase();
+  while (!VALID_CHOICES_SHORT.includes(choice)) {
+    if (VALID_CHOICES_LONG.includes(choice)) {
+      choice = formatChoice(choice);
+    } else {
+      prompt("That's not a valid choice");
+      choice = readline.question().toLowerCase();
+    }
+  }
+  return choice;
+}
+
+function formatChoice(choice) {
+  switch (choice) {
+    case 'rock':
+      choice = 'r';
+      break;
+    case 'paper':
+      choice = 'p';
+      break;
+    case 'scissors':
+      choice = 's';
+      break;
+    case 'lizard':
+      choice = 'l';
+      break;
+    case 'spock':
+      choice = 'o';
+      break;
+  }
+  return choice;
+}
+
+function randomChoice() {
+  let randomIndex = Math.floor(Math.random() * VALID_CHOICES_SHORT.length);
+  return VALID_CHOICES_SHORT[randomIndex];
+}
+
 function playerWins(choice, computerChoice) {
-  if ((choice === 'rock' && (computerChoice === 'scissors' || computerChoice === 'lizard')) ||
-    (choice === 'paper' && (computerChoice === 'rock' || computerChoice === 'spock')) ||
-    (choice === 'scissors' && (computerChoice === 'paper' || computerChoice === 'lizard')) ||
-    (choice === 'lizard' && (computerChoice === 'spock' || computerChoice === 'paper')) ||
-    (choice === 'spock' && (computerChoice === 'rock' || computerChoice === 'scissors'))) {
+  if (CHOICES[choice].beats.includes(computerChoice)) {
     return true;
   }
   return false;
@@ -29,7 +89,7 @@ function playerWins(choice, computerChoice) {
 
 function displayWinner(choice, computerChoice) {
   let winner = 0;
-  prompt(`You chose ${choice.toUpperCase()}, computer chose ${computerChoice.toUpperCase()}`);
+  prompt(`You chose ${CHOICES[choice].fullName.toUpperCase()}, computer chose ${CHOICES[computerChoice].fullName.toUpperCase()}`);
 
   if (playerWins(choice, computerChoice)) {
     prompt("You Win!");
@@ -85,35 +145,9 @@ while (true) {
   prompt(RULES);
 
   while (true) {
-    prompt(`Choose one by typing the word or the letter in [brackets]:\n=>${DISPLAY_CHOICES.join(', ')}`);
-    let choice = readline.question().toLowerCase();
+    let choice = inputPlayerChoice();
 
-    while (!(VALID_CHOICES_LONG.includes(choice) ||
-            VALID_CHOICES_SHORT.includes(choice))) {
-      prompt("That's not a valid choice");
-      choice = readline.question().toLowerCase();
-    }
-
-    switch (choice) {
-      case 'r':
-        choice = 'rock';
-        break;
-      case 'p':
-        choice = 'paper';
-        break;
-      case 's':
-        choice = 'scissors';
-        break;
-      case 'l':
-        choice = 'lizard';
-        break;
-      case 'o':
-        choice = 'spock';
-        break;
-    }
-
-    let randomIndex = Math.floor(Math.random() * VALID_CHOICES_LONG.length);
-    let computerChoice = VALID_CHOICES_LONG[randomIndex];
+    let computerChoice = randomChoice();
 
     console.clear();
 
