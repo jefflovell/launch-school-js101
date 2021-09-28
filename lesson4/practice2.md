@@ -8,7 +8,7 @@
 
 ***Answer:***
 `Map` is an array method that returns a new array containing the same number of elements as the calling array.
-Each element in the array is iterated over by `map` and is passed to `map` callback as an argument.
+Each element in the array is iterated over by `map` and is passed to `map`'s callback function as an argument.
 For each element passed to `map`'s callback, a return value is produced by the callback which is used by `map` to transform the element.
 In this example, the intention appears to be to transform each element by multiplying it by itself (`num * num`).
 However, because the callback is written as an `arrow function` using curly braces `{}`, an `explicit return statement` must be included and has been omitted (e.g. `return num * num;`).
