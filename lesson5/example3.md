@@ -11,8 +11,8 @@
 
 ***Answer:***
 - On line 1 we call the `map` function on a 2 dimensional array with each inner array containing 2 elements.
-- Each of the two elements of the outer array `[1, 2]` and `[3, 4]` are passed into the callback's parameter and assigned to the local variable `arr`.
-- On the first iteraton the `arr` will reference the inner array `[1, 2]`, therefore at line 2 when we print the value of `arr[0]` we will print `1`.
+- Each of the two elements of the outer array `[1, 2]` and `[3, 4]` are passed to the callback's parameter and assigned to the local variable `arr`.
+- On the first iteration the `arr` will reference the inner array `[1, 2]`, therefore at line 2 when we print the value of `arr[0]` we will print `1`.
 - On line 3 the value of `arr[0]`, `1`, will be returned and used as the transform value by `map`. This explicit return is required because of our multi-statement callback body (as delimited by `{}`).
 - The loop will reset for the next element in the input array which is `[3, 4]` and perform the same operations resulting in `3` printed to console and a return value of `3`
 - Map is a non-destructive method which always returns an array, so our final output will be a new array of values mapped to the same number of elements (`2`) as our original array => `[1, 3]`
