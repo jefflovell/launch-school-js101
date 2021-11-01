@@ -9,7 +9,7 @@ let arr = [['b', 'c', 'a'], [2, 11, -3], ['blue', 'black', 'green']];
 ```
 function mixedSort(nestedArray) {
   let arrayCopy = JSON.parse(JSON.stringify(nestedArray));
-  arrayCopy.map(innerArray => {
+  return arrayCopy.map(innerArray => {
     if (typeof innerArray[0] === 'number') {
       innerArray.sort( function(a, b) {
         return a - b;
@@ -19,7 +19,6 @@ function mixedSort(nestedArray) {
     }
     return innerArray;
   })
-  return arrayCopy;
 }
 
 // [ [ 'a', 'b', 'c' ], [ -3, 2, 11 ], [ 'black', 'blue', 'green' ] ]
