@@ -49,6 +49,9 @@ function change(greeting) {
 console.log(change());
 console.log(greeting);
 
+*variable shadowing*
+*it works without throwing an error BECAUSE of the shadowing.  We never touch the const greeting.  Without the variable shadowing, this code would throw a TypeError*
+
 // H's question
 const a = {
   firstName: 'John',
