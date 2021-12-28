@@ -1,4 +1,4 @@
-# 109 Group Study: Alex, Jeff, Daniel, Shane
+# 109 Written Exam Study Guide
 
 ## Canned Concept Definitions
 
@@ -40,18 +40,18 @@ The concept being demonstrated here is **implicit return values**: Functions alw
 
 ### Search and Selection
 
-`string.prototype.includes()`: This method takes a substring as the argument and returns a **boolean** signifying whether that substring exists within the string that `includes` was called on. The search is case-sensitive.
+- `string.prototype.includes()`: This method takes a substring as the argument and returns a **boolean** signifying whether that substring exists within the string that `includes` was called on. The search is case-sensitive.
   - `includes()` takes an optional, second argument which specifies the index at which to start the search.
 
-`string.prototype.charAt()`: This method takes an index value of the calling string as an argument and returns the character at that index.
+- `string.prototype.charAt()`: This method takes an index value of the calling string as an argument and returns the character at that index.
 
-`string.prototype.charCodeAt()`: This method returns the Unicode code point or character code of the character at the index of the caller passed to it. If an index is not provided, `charCodeAt()` assumes the index is `0`.
+- `string.prototype.charCodeAt()`: This method returns the Unicode code point or character code of the character at the index of the caller passed to it. If an index is not provided, `charCodeAt()` assumes the index is `0`.
 
 ### Transformations and Copies
 
-`string.prototype.concat()`: This method concatenates the string arguments to the calling string and returns a new string. If the arguments are not of the **type** `string`, they are converted to string values before concatenating. `concat` can take more than one string as arguments: `concat(str1, str2, ..., strN)`.
+- `string.prototype.concat()`: This method concatenates the string arguments to the calling string and returns a new string. If the arguments are not of the **type** `string`, they are converted to string values before concatenating. `concat` can take more than one string as arguments: `concat(str1, str2, ..., strN)`.
 
-`string.prototype.slice()`: This method extracts a section of a string and returns a new string, without modifying the original string. The `slice` method takes two optional arguments. The first argument specifies the index at which to start the extraction and the second argument specifies the index **BEFORE** which to end the extraction. The character at the ending index is not part of the returned substring.
+- `string.prototype.slice()`: This method extracts a section of a string and returns a new string, without modifying the original string. The `slice` method takes two optional arguments. The first argument specifies the index at which to start the extraction and the second argument specifies the index **BEFORE** which to end the extraction. The character at the ending index is not part of the returned substring.
   - Calling the `slice` method **without any arguments will return a copy** of the original string.
   - If the second argument to `slice` is omitted, all the characters from the start index to the end of the string are returned in the substring.
   - If the first argument is `>=` to the calling strings `length`, an empty string `''` is returned.
@@ -59,17 +59,17 @@ The concept being demonstrated here is **implicit return values**: Functions alw
   - If the second argument is a negative number, the slice will end **before** `caller.length + endIndex`.
   - If the second argument represents a position **before** the starting index, `slice()` will return an empty string `''`.
 
-`string.prototype.substring()`: This method takes a start index and an end index and returns a substring from the start of the index up to, but not including, the end index. `substring` does not mutate the caller and returns a new string.
+- `string.prototype.substring()`: This method takes a start index and an end index and returns a substring from the start of the index up to, but not including, the end index. `substring` does not mutate the caller and returns a new string.
 
-`string.prototype.trim()`: This method removes any amount of whitespace from both ends of the calling string including whitespace characters like `\t` and `\n` and returns the result as a new string.
+- `string.prototype.trim()`: This method removes any amount of whitespace from both ends of the calling string including whitespace characters like `\t` and `\n` and returns the result as a new string.
 
-`string.prototype.trimStart()` and `string.prototype.trimEnd()`:  These methods remove whitespace from the beginning or end of the calling string, respectively.  Both return a new string.
+- `string.prototype.trimStart()` and `string.prototype.trimEnd()`:  These methods remove whitespace from the beginning or end of the calling string, respectively.  Both return a new string.
 
-`string.prototype.toUpperCase()` and `string.prototype.toLowerCase()`: These methods both return a string identical to the caller but transformed to uppercase and lowercase respectively.
+- `string.prototype.toUpperCase()` and `string.prototype.toLowerCase()`: These methods both return a string identical to the caller but transformed to uppercase and lowercase respectively.
 
 ### Converting to Arrays
 
-`string.prototype.split()`: This method separates the calling string into multiple strings and returns them in the form of an array. What character or pattern is used to separate the string into elements depends on the argument you provide to `split()`.
+- `string.prototype.split()`: This method separates the calling string into multiple strings and returns them in the form of an array. What character or pattern is used to separate the string into elements depends on the argument you provide to `split()`.
   - When called without any arguments, returns an array with the string as its only element.
   - When called with an empty string as the argument, `split()` returns an array of all the characters in the string (with some exceptions).
   - When called with any other string as the argument, `split()` will separate the string using the argument as the **delimiter** character.
