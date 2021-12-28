@@ -3,20 +3,20 @@
 ## Canned Definitions
 
 ### Variable Scope
-The concept demonstrated here is **variable scope**:, in particular that inner (child) scopes **have** access to outer (parent) scope variables but that outer (parent) scopes **do not have** access to inner (child) scope variables.
+The concept demonstrated here is **variable scope**:, in particular that inner (child) scopes **do have access** to outer (parent) scope variables but that outer (parent) scopes **do not have** access to inner (child) scope variables.
 
 ### Variable Shadowing
 The concept demonstrated here **variable scope**: in particular **variable shadowing**, wherein a *local* (child scope) variable's name shadows a *global* (parent scope) variable of the **same name** thereby making the global variable *inaccessible* within the local scope.
 
 ### Pass by Value vs Pass by Reference
-It demonstrates the difference between **pass-by-value** and **pass-by-reference**:
+The concept demonstrated here is the difference between **pass-by-value** and **pass-by-reference**:
 
-**Pass-by-value**: All *primitive* values (`string`, `number`, `boolean`, `undefined`, `null`, `bigInt`(ES2015), `symbol`(ES2015)) are passed and returned by *value*. This means that when **primitive** values are passed to a function, the function receives a "copy" of the original value as an argument which is assigned to a local variable known as a **parameter**. The original value is therefore distinctly separate from the passed value and cannot be **mutated** by mutating the argument.
+**Pass-by-value**: All **primitive values** (`string`, `number`, `boolean`, `undefined`, `null`, `bigInt`(ES2015), `symbol`(ES2015)) are passed and returned by *value*. This means that when **primitives** are passed to a function, the function receives a "copy" of the original value as an *argument* which is assigned to a new, *local* variable known as a **parameter**. The original value is therefore *distinctly separate* from the passed value and *cannot* be **mutated** by mutating the argument.
 
-**Pass-by-reference**: Whenever **objects** are passed to or returned from a function (including arrays), the function receives a **reference** to the object's location in memory as an argument, which in turn points to the object's property values in memory.  The orginal value and the passed value are references to the **same object** and therefore the object's values *can* be **mutated** by mutating the argument.
+**Pass-by-reference**: Whenever **objects** are passed to or returned from a function (including arrays), the function receives a **reference (pointer)** to the object's *location in memory* as an argument, which in turn points to the object's property values in memory.  The orginal value and the passed value are *identical references to the **same object** in memory* and therefore the object's property values *can* be **mutated** by mutating the argument.
 
 ### Variables as Pointers (all objects):
-The concept being demonstrated here is **variables as pointers**: Any objects (including arrays) are stored *not as values* at the variable's memory address but as a **reference** (pointer) to the object's location in memory and in turn, memory addresses which contain the values of the object.
+The concept being demonstrated here is **variables as pointers**: Any objects (including arrays) are assigned to a variable's memory address *not as values*, but as **references (pointers)** to the object's location in memory; and the memory addresses which contain the values of the object's properties.
 
 ### Variables as Pointers (Const, Objects & Object.freeze())
 The principle demonstrated here is the mutability of objects (**variables as pointers**):
