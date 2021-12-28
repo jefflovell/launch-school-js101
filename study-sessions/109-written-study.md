@@ -56,13 +56,13 @@ The concept being demonstrated here is **variable scope**: in particular that in
 
 ## What does this code do and why?
 ```js
-let name = "John";                  // line 1
+let name = "John";
 
-const greet = () => `Hi ${name}`;   // line 3
+const greet = () => `Hi ${name}`;
 
-let greeting = greet();             // line 5
+let greeting = greet();
 
-console.log(greeting);              // line 7
+console.log(greeting);
 ```
 ### Answer:
 
@@ -76,14 +76,14 @@ We start by declaring a variable `name` and initializing it to the value `"John"
 
 ## What does this code do and why?
 ```js
-let dog = 'Bark'; // line 1
+let dog = 'Bark';
 
-function dogCall(dog) { // line 3
+function dogCall(dog) {
   dog = dog + dog;
 }
 
-dogCall(dog); // line 7
-console.log(dog); //  line 8 => Bark
+dogCall(dog);
+console.log(dog);
 ```
 
 ### Answer:
@@ -117,8 +117,8 @@ function bar(argument1, argument2) {
 
 bar(foo, qux);
 
-console.log(foo.a); // line 15 => 'hi'
-console.log(qux); // line 16 => 'hello'
+console.log(foo.a);
+console.log(qux);
 ```
 
 ### Answer:
@@ -136,13 +136,13 @@ This is why when logging `foo.a` the we find that `foo` has been mutated, with `
 
 ## What does this code do and why?
 ```js
-const campus = { state: 'Boston', address: 'North Ave NW' }; // line 5
-campus.state = 'Georgia'; // line 6
-console.log(campus); // line 7 => { state: 'Georgia', address: 'North Ave NW' }
+const campus = { state: 'Boston', address: 'North Ave NW' };
+campus.state = 'Georgia';
+console.log(campus);
 
-const location = Object.freeze({ state: 'CA', country: 'US' }); // line 1
-location.state = 'FL'; // line 2
-console.log(location); // line 3 => { state: 'CA', country: 'US' }
+const location = Object.freeze({ state: 'CA', country: 'US' });
+location.state = 'FL';
+console.log(location);
 ```
 ### Answer:
 Line 7 prints an object `{ state: 'Georgia', address: 'North Ave NW' }`.
