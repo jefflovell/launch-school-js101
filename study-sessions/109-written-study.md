@@ -41,6 +41,7 @@ The concept being demonstrated here is **implicit return values**: Functions alw
 ### Search and Selection
 
 `string.prototype.includes()`: This method takes a substring as the argument and returns a **boolean** signifying whether that substring exists within the string that `includes` was called on. The search is case-sensitive.
+  - `includes()` takes an optional, second argument which specifies the index at which to start the search.
 
 `string.prototype.charAt()`: This method takes an index value of the calling string as an argument and returns the character at that index.
 
@@ -53,6 +54,10 @@ The concept being demonstrated here is **implicit return values**: Functions alw
 `string.prototype.slice()`: This method extracts a section of a string and returns a new string, without modifying the original string. The `slice` method takes two optional arguments. The first argument specifies the index at which to start the extraction and the second argument specifies the index **BEFORE** which to end the extraction. The character at the ending index is not part of the returned substring.
   - Calling the `slice` method **without any arguments will return a copy** of the original string.
   - If the second argument to `slice` is omitted, all the characters from the start index to the end of the string are returned in the substring.
+  - If the first argument is `>=` to the calling strings `length`, an empty string `''` is returned.
+  - If the first argument is a negative number e.g. `-2`, the slice begins extraction from `caller.length + startIndex` i.e. `5 + -2` would begin at `caller[3]`.
+  - If the second argument is a negative number, the slice will end **before** `caller.length + endIndex`.
+  - If the second argument represents a position **before** the starting index, `slice()` will return an empty string `''`.
 
 `string.prototype.substring()`: This method takes a start index and an end index and returns a substring from the start of the index up to, but not including, the end index. `substring` does not mutate the caller and returns a new string.
 
