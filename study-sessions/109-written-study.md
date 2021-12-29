@@ -326,13 +326,13 @@ The callbackFn of `map()` performas a transformation on each element passed to i
 
 Because the `callbackFn` for `map()` is using arrow syntax with `{ }` you must include an **explicit return statement**.  Since the return statement was not included, `map()` instead returns the **implicit return value** of `undefined`.
 
-### Iterators Example 3: Filter
+## Iterators Example 3: Filter
 
 ```js
 [1, 2, 3].filter(num => 'hi');
 ```
 
-## Answer:
+### Answer:
 Line 329 returns a new array `[1, 2, 3]`
 
 The concept being demonstrated here is **implicit type coercion**
