@@ -34,7 +34,7 @@ All **primitive** data types in JavaScript (`string`, `number`, `boolean`, `unde
 ### Implicit Return Values (function side effects):
 The concept being demonstrated here is **implicit return values**: Functions always return *something* to the calling code (the **caller**).  Operations performed *inside* of a function that have an effect *outside* the function without being returned are known as **side-effects**.  If a function does not return a value explicitly, it will always return `undefined` to when passing control back to the caller.
 
-## String Methods
+## Common String Methods
 
 ***All string methods return new strings because strings are **primitive** types and therefore **immutable** values.***
 
@@ -74,7 +74,7 @@ The concept being demonstrated here is **implicit return values**: Functions alw
   - When called with an empty string as the argument, `split()` returns an array of all the characters in the string (with some exceptions).
   - When called with any other string as the argument, `split()` will separate the string using the argument as the **delimiter** character.
 
-## Array Methods
+## Common Array Methods
 
 ### Destructive Methods
 
@@ -94,11 +94,11 @@ The concept being demonstrated here is **implicit return values**: Functions alw
 
 ### Non-destructive Methods
 
-`array.prototype.concat`: This method returns a new array that contains a copy of the original array combined with additional elements supplied with the arguments. Since `concat` creates a copy of the original array and then mutates the copy, it leaves the original array intact.
+`array.prototype.concat()`: This method returns a new array that contains a copy of the original array combined with additional elements supplied with the arguments. Since `concat` creates a copy of the original array and then mutates the copy, it leaves the original array intact.
 
 `array.prototype.slice()`: This method returns a shallow copy of a portion of an array into a new array object selected from `start` to `end` (end not included) where `start` and `end` represent the index of items in that array. The original array will not be modified.
 
-`array.prototype.find`: This method executes the callback function once for each index of the array until the callback function returns a truthy value. If so, `find` immediately returns the value of that element. Otherwise, `find` returns `undefined`.
+`array.prototype.find()`: This method executes the callback function once for each index of the array until the callback function returns a truthy value. If so, `find` immediately returns the value of that element. Otherwise, `find` returns `undefined`.
 
 `array.prototype.findIndex()`: This method returns the **index** of the first element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, `-1` is returned.
 
@@ -108,9 +108,9 @@ The concept being demonstrated here is **implicit return values**: Functions alw
 
 `array.prototype.forEach()`: This method is called directly on an array and executes a callback function for each element in the calling array. `forEach()` can only cause side effects as it cannot pass an explicit return value and always returns `undefined`. `forEach()` always iterates through every iterable element of the caller.
 
-`array.prototype.filter`: This method returns a new array that includes all elements from the calling array for which the callback returns a truthy value. If no elements return a truthy value, it returns an empty array. `filter` doesn't mutate the caller. `filter`'s callback function can accept 1, 2, or 3 elements: the element value, the element index, and the array it is operating on.
+`array.prototype.filter()`: This method returns a new array that includes all elements from the calling array for which the callback returns a truthy value. If no elements return a truthy value, it returns an empty array. `filter` doesn't mutate the caller. `filter`'s callback function can accept 1, 2, or 3 elements: the element value, the element index, and the array it is operating on.
 
-`array.prototype.map`: This method returns a new array populated with the return values of executing a callback function for each element of the calling array.
+`array.prototype.map()`: This method returns a new array populated with the return values of executing a callback function for each element of the calling array.
 
 `array.prototype.some()`: This method executes a callbackFn once for each element in the calling array and compares the value passed in to a test condition. `some()` continues to test elements until finding a value that passes the test in which case the method **immediately** returns `true`. If no elements pass the test, `some()` returns `false`.
 
@@ -136,7 +136,9 @@ console.log(a);
 ### Answer:
 
 Line 8 will **return** the number `2`.
+
 Line 9 will **print** the number `2` to the console.
+
 Line 10 will throw a `referenceError: a is not defined`.
 
 The concept being demonstrated here is **variable scope**: in particular that inner (child) scopes **do have access** to outer (parent) scope variables but that outer (parent) scopes **do not have access** to inner (child) scope variables..  `b` is a global variable, and `a` is a parameter (local variable) of the function `test()`. So when `a` is reassigned the value of `b` on line 4, the function `test()` first looks for a local variable, then when it finds none, expands to the outer, global scope.  Since `b` is in the global scope, it can be used by both the function `test()` and the method `console.log()`.  However, when we attempt to access `a` on line 10 from a different function scope (`console.log()`), we are not able to see into the scope of the function `test()`, therefore a `referenceError` is thrown.
@@ -176,6 +178,7 @@ console.log(dog);
 ### Answer:
 
 line 7 returns `undefined`.
+
 line 8 logs `'Bark'`.
 
 There are two primary concepts demonstrated here:
@@ -207,8 +210,9 @@ console.log(qux);
 ```
 
 ### Answer:
-line 79 prints `'hi'`
-line 80 prints `'hello'`
+line 79 prints `'hi'`.
+
+line 80 prints `'hello'`.
 
 The concept being demonstrated here is **Pass-by-Reference**: When objects are passed to a function (including arrays), what the function receives as an argument is a **reference** to the object's location in memory, which in turn points to the object's property values in memory.  The orginal value and the passed value are therefore references to the **same object** and therefore the object's values can be mutated by mutating the argument.
 
@@ -231,6 +235,7 @@ console.log(location);
 ```
 ### Answer:
 Line 7 prints an object `{ state: 'Georgia', address: 'North Ave NW' }`.
+
 Line 3 throws a `TypeError`.
 
 The principle demonstrated here is the mutability of objects (variables as pointers):  even when declared with `const`, objects can be mutated and properties reassigned unless `Object.freeze()` is used to freeze the object so that its properties cannot be changed. Variables which are assigned objects **do not** store a value, but instead store **pointers** to the object and its properties in memory.  While a constant ("variable") declared with `const` cannot be reassigned to point to another address in memory (this is an intrinsic property of `const` regardless of whether it was assigned to an object or a primitive) the additional addresses and values at those adddresses describing an object's properties can change. This is why it is possible to add, remove, or reassign property names and values of objects declared with `const` but not possible to change the object that `const` points to.
@@ -267,6 +272,7 @@ The program returns undefined followed by printing the array of objects `hottest
 
 ```js
 undefined
+
 [
   { continent: 'Africa', country: 'Tunisia', temp: 131 },
   { continent: 'Asia', country: 'Iran', temp: 129.2 },
