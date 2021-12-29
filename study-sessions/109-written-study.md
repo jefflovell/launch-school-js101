@@ -78,43 +78,48 @@ The concept being demonstrated here is **implicit return values**: Functions alw
 
 ### Destructive Methods
 
-`array.prototype.pop()`: This method removes the **last** element from an array and returns that element. This method mutates the calling array.
+`array.prototype.unshift()`: This method *adds* one or more elements to the **beginning** of an array and **returns the length of the new array** to the caller. **This method mutates the calling array.**
 
-`array.prototype.push()`: This method **adds** one or more elements to the **end** of an array and returns the length of the new array. This method mutates the calling array.
+`array.prototype.push()`: This method *adds* one or more elements to the **end** of an array and **returns the length of the new array** to the caller. **This method mutates the calling array.**
 
-`array.prototype.shift()`: This method *removes* the **first** element from an array and returns the removed element. This method mutates the calling array.
+`array.prototype.shift()`: This method *removes* the **first** element from an array and **returns the removed element** to the caller. **This method mutates the calling array.**
 
-`array.prototype.unshift()`: This method *adds* one or more elements to the **beginning** of an array and returns the length of the new array. This method mutates the calling array.
+`array.prototype.pop()`: This method *removes* the **last** element from an array and **returns the removed element** to the caller. **This method mutates the calling array.**
 
-`array.prototype.sort()`: This method sorts the elements of an array in place (mutating the calling array) and returns the sorted array. The default sort order is ascending, built upon converting the elements into strings, then comparing their sequences of UTF-16 code units values.
+`array.prototype.sort()`: This method sorts the elements of an array **in place** (mutating the calling array) and **returns the sorted array** to the caller. The default sort order is ascending, built upon converting the elements into strings, then comparing their sequences of UTF-16 code units values. **This method mutates the calling array.**
 
-`array.prototype.reverse()`: This method reverses an array in place. The first array element becomes the last, and the last array element becomes the first. This method mutates the calling array.
+`array.prototype.reverse()`: This method reverses an array **in place**. The first element becomes the last, and the last element becomes the first, with inside elements translated around the center element as required. **This method mutates the calling array.**
 
-`array.prototype.splice()`: This method changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.
+`array.prototype.splice()`: This method changes the contents of an array by removing or replacing existing elements and/or adding new elements in place based on the arguments passed to it.  `splice()` accepts is invoked with 3+ parameters: the `start` index to begin the `splice`, the `deleteCount` specifying the number of items to remove beginning from `start` (this number can be `<= 0` to not delete items but if omitted entirely will delete the entire array from `start` to the end of the array), and any number of `elements` to add to the array.`splice()` returns **an array containing the items deleted to the caller**.  **This method mutates the calling array.**
 
 ### Non-destructive Methods
 
-`array.prototype.concat()`: This method returns a new array that contains a copy of the original array combined with additional elements supplied with the arguments. Since `concat` creates a copy of the original array and then mutates the copy, it leaves the original array intact.
+`array.prototype.concat()`: This method returns a new array that contains a copy of the original array combined with additional elements supplied with the arguments. Since `concat` creates a copy of the original array and then mutates the copy. **This method does not mutate the caller.**
 
-`array.prototype.slice()`: This method returns a shallow copy of a portion of an array into a new array object selected from `start` to `end` (end not included) where `start` and `end` represent the index of items in that array. The original array will not be modified.
+`array.prototype.slice()`: This method returns a **shallow copy** of all or a segment of an array selected from `startIndex` to the element preceding `endIndex` (not inclusive) where `startIndex` and `endIndex` represent the index of items in that array.  Negative `start` and `end` values are legal and are calculated as `array.length + start` (or `end`). If `end` is greater than `array.length` or omitted, the method slices through the end of the sequence. `slice()` returns a new array containing the extracted values. **This method does not mutate the caller.**
 
-`array.prototype.find()`: This method executes the callback function once for each index of the array until the callback function returns a truthy value. If so, `find` immediately returns the value of that element. Otherwise, `find` returns `undefined`.
+`array.prototype.indexOf()`: This method returns the **first index** at which a value passed as an argument to the method can be found in the calling array.  If the value cannot be found or if the search starting index is greater than or equal to the arrays' length, `indexOf()` returns `-1`.  **This method does not mutate the caller.**
 
-`array.prototype.findIndex()`: This method returns the **index** of the first element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, `-1` is returned.
-
-`array.prototype.indexOf()`: This method returns the first index at which a given element can be found in the array, or `-1` if it is not present.
+`rray.prototype.includes()`: This method is called directly on an array and searches the calling array for an element whose value is **strictly equal** ( === ) to the single argument passed to it.  It returns `true` when a matching element exists in the calling array and `false` when it does not. **This method does not mutate the caller.**
 
 ### Iterators
 
-`array.prototype.forEach()`: This method is called directly on an array and executes a callback function for each element in the calling array. `forEach()` can only cause side effects as it cannot pass an explicit return value and always returns `undefined`. `forEach()` always iterates through every iterable element of the caller.
+`array.prototype.forEach()`: This method is called directly on an array and executes a callbackFn for each element in the calling array. `forEach()` is functionally equivalent to a `for` or `while` loop but requires no start or end conditions.  It will always iterate through every iterable element of the calling array. `forEach()` can only cause side effects as it cannot pass an explicit return value and will always return `undefined`.  **This method does not mutate the caller.**
 
-`array.prototype.filter()`: This method returns a new array that includes all elements from the calling array for which the callback returns a truthy value. If no elements return a truthy value, it returns an empty array. `filter` doesn't mutate the caller. `filter`'s callback function can accept 1, 2, or 3 elements: the element value, the element index, and the array it is operating on.
+`array.prototype.filter()`: This method is called directly on array and executes a callbackFn for each element in the calling array. The callbackFn of `filter()` evaluates each element's value against a test condition to determine selection.  For each element, if the test evaluates to true, the callbackFn returns the current value to `filter()` to be included as part of a **new array** returned to the caller. If no elements of the calling array pass the test, `filter` returns an empty array. **This method does not mutate the caller.**
 
-`array.prototype.map()`: This method returns a new array populated with the return values of executing a callback function for each element of the calling array.
+`array.prototype.map()`: This method is called directly on an array and executes a callbackFn for each element in the calling array. The callbackFn of `map()` performas a transformation on each element passed to it and passes it back to `map()`.  Once every element has been iterated over, `map()` returns a **new array** to the caller, populated with the transformed values for each element of the calling array.  The return array is always equal in length to the calling array.  This also applies to sparse arrays. **This method does not mutate the caller.**
 
-`array.prototype.some()`: This method executes a callbackFn once for each element in the calling array and compares the value passed in to a test condition. `some()` continues to test elements until finding a value that passes the test in which case the method **immediately** returns `true`. If no elements pass the test, `some()` returns `false`.
+`array.prototype.reduce()`: This method is called directly on an array and executes a callbackFn for each element in the calling array, usually referred to as the *reducer*. The *reducer* (callbackFn) takes two arguments typically known as the *'accumulator'* or 'previousValue' and the *'currentValue'*.  The *accumulator* **stores the value of all elements that have been passed to the callbackFn so far and therefore have been 'reduced'**.  The current element is the element currently being iterated over by `reduce()`. `reduce()` accepts a second, optional *'previous value'* argument to initialize the reducer callbackFn with.  If no initial value is specified, the reducer **uses the value at `index 0` of the calling array as the previous value** and the v**alue at `index 1` as the current value**.  If an initial value is specified, `index 0` of the calling array is used as the current value on the first iteration.  Once all elements of the calling array have been iterated over, `reduce()` **returns a single value** based on the operations performed and the data type(s) of the calling array's elements. If the calling array contains **no elements** *and* an **initial value is not provided**, `reduce()` will throw a `TypeError`. **This method does not mutate the caller.**
 
-`array.prototype.every()`: This method executes a callback function once for each element in the calling array which contains a test condition. If any element passed to the callbackFn evaluates to false against the test, `every()` **immediately** returns `false`. Otherwise, it returns `true`.
+`array.prototype.some()`: This method is called directly on an array and executes a callbackFn once for each element in the calling array and compares the value passed in to a test condition. `some()` continues to test elements until finding a value that passes the test in which case the method **immediately** returns `true`. If no elements pass the test, `some()` returns `false`. **This method does not mutate the caller.**
+
+`array.prototype.every()`: This method is called directly on an array and executes a callback function which contains a test condition once for each element in the calling array. If **any** element passed to the callbackFn's test condition evaluates to `false`, `every()` **immediately** returns `false`. Otherwise, it returns `true`. **This method does not mutate the caller.**
+
+`array.prototype.find()`: This method is called directly on an array and executes a callbackFn once for each element in the calling array, comparing the value passed in to a test condition. `find()` returns the **value** of the **first element** in the calling array that satisfies the provided test condition. If a truthy value is not found `find()` returns `undefined`. **This method does not mutate the caller.**
+
+`array.prototype.findIndex()`: This method is called directly on an array and executes a callbackFn once for each element in the calling array, comparing the value passed in to a test condition. `findIndex()` returns the **index** of the **first element** in the calling array that satisfies the provided test condition. If no values satisfy the testing function, `-1` is returned.  **This method does not mutate the caller.**
+
 
 ## Practice Excercises
 
@@ -234,9 +239,9 @@ location.state = 'FL';
 console.log(location);
 ```
 ### Answer:
-Line 7 prints an object `{ state: 'Georgia', address: 'North Ave NW' }`.
+Line 3 prints an object `{ state: 'Georgia', address: 'North Ave NW' }`.
 
-Line 3 throws a `TypeError`.
+Line 7 throws a `TypeError`.
 
 The principle demonstrated here is the mutability of objects (variables as pointers):  even when declared with `const`, objects can be mutated and properties reassigned unless `Object.freeze()` is used to freeze the object so that its properties cannot be changed. Variables which are assigned objects **do not** store a value, but instead store **pointers** to the object and its properties in memory.  While a constant ("variable") declared with `const` cannot be reassigned to point to another address in memory (this is an intrinsic property of `const` regardless of whether it was assigned to an object or a primitive) the additional addresses and values at those adddresses describing an object's properties can change. This is why it is possible to add, remove, or reassign property names and values of objects declared with `const` but not possible to change the object that `const` points to.
 
