@@ -106,7 +106,7 @@ The concept being demonstrated here is **implicit return values**: Functions alw
 
 `array.prototype.forEach()`: This method is called directly on an array and executes a callbackFn for each element in the calling array. `forEach()` is functionally equivalent to a `for` or `while` loop but requires no start or end conditions.  It will always iterate through every iterable element of the calling array. `forEach()` can only cause side effects as it cannot pass an explicit return value and will always return `undefined`.  **This method does not mutate the caller.**
 
-`array.prototype.filter()`: This method is called directly on array and executes a callbackFn for each element in the calling array. The callbackFn of `filter()` evaluates each element's value against a test condition to determine selection.  For each element, if the test evaluates to true, the callbackFn returns the current value to `filter()` to be included as part of a **new array** returned to the caller. If no elements of the calling array pass the test, `filter` returns an empty array. **This method does not mutate the caller.**
+`array.prototype.filter()`: This method is called directly on array and executes a callbackFn for each element in the calling array. The callbackFn of `filter()` evaluates a test condition to determine selection. For each element, if the test evaluates to true, the callbackFn returns the current value to `filter()` to be included as part of a **new array** returned to the caller. If no elements of the calling array pass the test, `filter` returns an empty array. **This method does not mutate the caller.**
 
 `array.prototype.map()`: This method is called directly on an array and executes a callbackFn for each element in the calling array. The callbackFn of `map()` performas a transformation on each element passed to it and passes it back to `map()`.  Once every element has been iterated over, `map()` returns a **new array** to the caller, populated with the transformed values for each element of the calling array.  The return array is always equal in length to the calling array.  This also applies to sparse arrays. **This method does not mutate the caller.**
 
@@ -121,7 +121,7 @@ The concept being demonstrated here is **implicit return values**: Functions alw
 `array.prototype.findIndex()`: This method is called directly on an array and executes a callbackFn once for each element in the calling array, comparing the value passed in to a test condition. `findIndex()` returns the **index** of the **first element** in the calling array that satisfies the provided test condition. If no values satisfy the testing function, `-1` is returned.  **This method does not mutate the caller.**
 
 
-## Practice Excercises
+# Practice Excercises
 
 ## Scope 1: What does this code do and why?
 
@@ -169,6 +169,7 @@ We start by declaring a variable `name` and initializing it to the value `"John"
 
 
 ## Scope 3: What does this code do and why?
+
 ```js
 let dog = 'Bark';
 
@@ -195,6 +196,7 @@ The second concept demonstrated is **variable scope**: in particular **variable 
 On line 1, `dog` is a global variable and assigned the value `'Bark'`.  When it is passed into the function `dogCall()` via the **parameter** `dog`, because strings are **primitive**, it is passed in by value and a 'copy' of the value is assigned to the function's local variable `dog` which is wholly independent of the value held by the global `dog`.  The function `dogCall()` doesn't actually cause any side-effects because of **variable shadowing**.  Since the parameter `dog` has the same name as the global variable but its value is primitive, the function can never access the value of the global variable `dog`.  The concatenation performed is simply updating the parameter's value.  When the function exits, its local variable and the concatenation reassignment that it performed are unloaded from memory. So the function simply exits and returns `undefined`.  Thus when `dog` is logged, it logs the global variable's value of `"Bark"`. The value of global `dog` was never updated by `dogCall()` because of the shadowing.
 
 ## Ref vs Val 1: What does this code do and why?
+
 ```js
 let foo = {
   a: 'hello',
@@ -229,6 +231,7 @@ However, the value of `qux`, which is passed into `argument2` is a string which 
 This is why when logging `foo.a` the we find that `foo` has been mutated, with `foo.a`'s value being reassigned to `'hi`' but when logging `qux` the value is unchanged.
 
 ## Rev vs Val 2: What does this code do and why?
+
 ```js
 const campus = { state: 'Boston', address: 'North Ave NW' };
 campus.state = 'Georgia';
@@ -288,8 +291,53 @@ undefined
 ]
 ```
 
-The first concept being demonstrated here is **implicit return values**: Functions always return *something*.  Operations performed *inside* of a function that have an effect *outside* the function without being returned are known as **side-effects**.  If a function does not return a value explicitly, it will always return `undefined`.
+The first concept being demonstrated here is **implicit return values**: Functions always return *something*. If a function does not return a value explicitly, it will always return `undefined`.  Other operations performed *inside* of a function that have an effect *outside* the function without being returned are known as **side-effects** and have no impact on the return value.
 
-The second concept being demonstrated here is **variables as pointers**: Any objects (including arrays) are assigned to variables not as values at the variable's memory address but as references (pointers) to other memory addresses which contain the values of the object.
+The second concept being demonstrated here is **variables as pointers**: All objects (including arrays) are assigned to variables ***not* as values** at the variable's memory address but as **references** (pointers) to other memory addresses which contain the values of the object.
 
-On line 130 when `hottestTempsInF` is assigned the expression `toFahrenheit(hottestTemps)` it would be natural to expect the value of `hottestTempsInF` to be a copy of the array passed to `toFahrenheit()` with the temps updated to Fahrenheit.  However, the function `toFahrenheit()` as declared on line 123 does not have a **return** statement, so the return value of this function assigned to the `const` `hottestTempsInF` is actually `undefined`.  Additionally, our input array is an array of **objects**. When we invoke `slice()` on line 123 of the function `toFarenheit()` to make a copy of the input array, we do create a new array, but that array is a **shallow copy**.  The objects referenced *inside the input array's elements are still shared with the original array*.  Therefore on line 130/131 when we would expect to print two different arrays because we assigned the expression `toFarhrenheit(hottestTemps)` to a new variable, what we find instead is that we have printed `undefined` and mutated the input array.
+On line 130 when `hottestTempsInF` is assigned the expression `toFahrenheit(hottestTemps)`, it would be natural to expect the value of `hottestTempsInF` to be a copy of the array passed to `toFahrenheit()` with the temps updated to Fahrenheit.  However, the function `toFahrenheit()` as declared on line 123 does not contain a **return** statement, so the return value of function expression assigned to the `const` `hottestTempsInF` is actually `undefined`.  Additionally, our input array is an array of **objects**. When we invoke `slice()` on line 123 of the function `toFarenheit()` to make a copy of the input array, we do create a new array, but that array is a **shallow copy**.  The objects referenced *inside the input array's elements are still shared with the original array*.  Therefore on line 130/131 when we would expect to print two different arrays because we assigned the expression `toFarhrenheit(hottestTemps)` to a new variable, what we find instead is that we have printed `undefined` and mutated the input array.
+
+## Iterators Example 1: Map & Filter
+
+Describe the difference between the array `map` and the `filter` method. When would you use each?
+
+Both `map()` and `filter()` are called directly on array and execute a callbackFn for each element in the calling array.  Both methods return a **new** array (neither method mutates the caller).  Essentially, `filter()` is an array selection method and `map()` is an array transformation method.
+
+The callbackFn of `map()` performas a transformation on each element passed to it and passes it back to `map()`.  Once every element has been iterated over, `map()` returns the **new array** to the caller, populated with the transformed values for each element of the calling array.  The return array is always equal in length to the calling array.  This also applies to sparse arrays.
+
+The callbackFn of `filter()` evaluates each element's value against a test condition to determine which elements to select.  For each element, if the test evaluates to true, the callbackFn returns the current value to `filter()` to be included as part of the **new array** returned to the caller. If no elements of the calling array pass the test, `filter` returns an empty array.
+
+## Iterators Example 2: Map
+
+What does the following code do and why?
+
+```js
+[1, 2, 3].map(num => {
+  num * num;
+});
+```
+
+### Answer:
+Line 312 returns `[undefined, undefined, undefined]`
+
+The concepts being demonstrated here are arrow syntax and implicit return values.
+
+The callbackFn of `map()` performas a transformation on each element passed to it and passes it back to `map()`.  Once every element has been iterated over, `map()` returns the **new array** to the caller, populated with the transformed values for each element of the calling array.  The return array is always equal in length to the calling array.
+
+Because the `callbackFn` for `map()` is using arrow syntax with `{ }` you must include an **explicit return statement**.  Since the return statement was not included, `map()` instead returns the **implicit return value** of `undefined`.
+
+### Iterators Example 3: Filter
+
+```js
+[1, 2, 3].filter(num => 'hi');
+```
+
+## Answer:
+Line 329 returns a new array `[1, 2, 3]`
+
+The concept being demonstrated here is **implicit type coercion**
+
+`array.prototype.filter()` is called directly on array and executes a callbackFn for each element in the calling array. The callbackFn of `filter()` evaluates a test condition to determine selection.  For each element, if the test evaluates to true, the callbackFn returns the current value to `filter()` to be included as part of a **new array** returned to the caller. If no elements of the calling array pass the test, `filter` returns an empty array. **This method does not mutate the caller.**
+
+In order to assess which values to select, the string is coerced to `true`.  Since the test is always true on each invocation of the callbackFn each element is added to the returned array.
+
