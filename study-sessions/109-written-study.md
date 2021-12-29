@@ -74,6 +74,48 @@ The concept being demonstrated here is **implicit return values**: Functions alw
   - When called with an empty string as the argument, `split()` returns an array of all the characters in the string (with some exceptions).
   - When called with any other string as the argument, `split()` will separate the string using the argument as the **delimiter** character.
 
+## Array Methods
+
+### Destructive Methods
+
+`array.prototype.pop()`: This method removes the **last** element from an array and returns that element. This method mutates the calling array.
+
+`array.prototype.push()`: This method **adds** one or more elements to the **end** of an array and returns the length of the new array. This method mutates the calling array.
+
+`array.prototype.shift()`: This method *removes* the **first** element from an array and returns the removed element. This method mutates the calling array.
+
+`array.prototype.unshift()`: This method *adds* one or more elements to the **beginning** of an array and returns the length of the new array. This method mutates the calling array.
+
+`array.prototype.sort()`: This method sorts the elements of an array in place (mutating the calling array) and returns the sorted array. The default sort order is ascending, built upon converting the elements into strings, then comparing their sequences of UTF-16 code units values.
+
+`array.prototype.reverse()`: This method reverses an array in place. The first array element becomes the last, and the last array element becomes the first. This method mutates the calling array.
+
+`array.prototype.splice()`: This method changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.
+
+### Non-destructive Methods
+
+`array.prototype.concat`: This method returns a new array that contains a copy of the original array combined with additional elements supplied with the arguments. Since `concat` creates a copy of the original array and then mutates the copy, it leaves the original array intact.
+
+`array.prototype.slice()`: This method returns a shallow copy of a portion of an array into a new array object selected from `start` to `end` (end not included) where `start` and `end` represent the index of items in that array. The original array will not be modified.
+
+`array.prototype.find`: This method executes the callback function once for each index of the array until the callback function returns a truthy value. If so, `find` immediately returns the value of that element. Otherwise, `find` returns `undefined`.
+
+`array.prototype.findIndex()`: This method returns the **index** of the first element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, `-1` is returned.
+
+`array.prototype.indexOf()`: This method returns the first index at which a given element can be found in the array, or `-1` if it is not present.
+
+### Iterators
+
+`array.prototype.forEach()`: This method is called directly on an array and executes a callback function for each element in the calling array. `forEach()` can only cause side effects as it cannot pass an explicit return value and always returns `undefined`. `forEach()` always iterates through every iterable element of the caller.
+
+`array.prototype.filter`: This method returns a new array that includes all elements from the calling array for which the callback returns a truthy value. If no elements return a truthy value, it returns an empty array. `filter` doesn't mutate the caller. `filter`'s callback function can accept 1, 2, or 3 elements: the element value, the element index, and the array it is operating on.
+
+`array.prototype.map`: This method returns a new array populated with the return values of executing a callback function for each element of the calling array.
+
+`array.prototype.some()`: This method executes a callbackFn once for each element in the calling array and compares the value passed in to a test condition. `some()` continues to test elements until finding a value that passes the test in which case the method **immediately** returns `true`. If no elements pass the test, `some()` returns `false`.
+
+`array.prototype.every()`: This method executes a callback function once for each element in the calling array which contains a test condition. If any element passed to the callbackFn evaluates to false against the test, `every()` **immediately** returns `false`. Otherwise, it returns `true`.
+
 ## Practice Excercises
 
 ## Scope 1: What does this code do and why?
