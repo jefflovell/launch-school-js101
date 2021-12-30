@@ -81,7 +81,7 @@ console.log(name);
 // [1, 2, undefined, {1:2}, <2 empty items>, null, '-1': 2]
 array.length; // What will this line return and why?
 
-7 because '-1' is an object property that is not enumerable so the length is 7. 
+7 because '-1' is an object property that is not enumerable so the length is 7.
 
 ## Question 35 - Group effort / Elaine (Marcos hasn't covered)
 ### What do we mean when we say that functions in JS are first-class values?

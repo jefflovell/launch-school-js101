@@ -34,6 +34,27 @@ All **primitive** data types in JavaScript (`string`, `number`, `boolean`, `unde
 ### Implicit Return Values (function side effects):
 The concept being demonstrated here is **implicit return values**: Functions always return *something* to the calling code (the **caller**).  Operations performed *inside* of a function that have an effect *outside* the function without being returned are known as **side-effects**.  If a function does not return a value explicitly, it will always return `undefined` to when passing control back to the caller.
 
+### Working with Objects (What is an Object?):
+`Objects` store an order-independent collection of `key-value pairs` known as `properties`: each property in the object has a name that we call the `key` and an associated `value`.  An object's keys are always `strings`, but the values can be any `data type`, even other objects (including arrays and functions).
+
+### Working with Objects (Object Notation):
+There are two ways to access object `properties` (key-value pairs) in an object, `dot notation` and `bracket notation`.
+
+### Working with Objects (Dot Notation):
+With `dot notation`, we place a dot after the variable that references the object `(.)` followed by a `key name` to specify the property like so: `myObject.foo`, the value of which we want to read, assign, re-assign, or invoke (in the case of a `method`) such as `myObject.foo = 'bar';`. This access method only works with `key names` and cannot be used if the property's key name is assigned to a variable.
+
+### Working with Objects (Bracket Notation):
+With `bracket notation`, we place square braces after the variable that references the object `[]` around the name of the property (`key name`) in quotes like so: `myObject['key']` to access a named property.  In the case of a variable containing a key such as `let key = 'name';` the quotes are omitted (`[key]`) and the value of the variable will be passed in as the property key name: `myObject[key]` will look for a property of `myObject` called `'name'`. Bracket notation is the only way to access object properties using key names assigned to variables.
+
+### Working with Objects (Prototypal Inheritence):
+Javascript Objects can **inherit** from other objects.  If `objectA` inherits from `objectB` we say that `objectB` is the **prototype** of `objectA`.  This means that `objectA` has access to properties defined on `objectB` even though `objectA` does not define those properties itself.  This concept is critical to understanding some behaviors of object `iterators`.
+
+### The Ternary Operator:
+The `ternary operator` takes three `operands`: a `condition` followed by a question mark `(?)`, then an expression to execute if the condition is `truthy` followed by a colon `(:)`, and finally the expression to execute if the condition is `falsy`.
+
+This operator is frequently used as a shortcut for the if statement and because it is an **expression** that evaluates to a **value**, its value can be assigned to a variable, unlike the `if...else` **statement**.
+
+
 ## Common String Methods
 
 ***All string methods return new strings because strings are **primitive** types and therefore **immutable** values.***
@@ -104,26 +125,47 @@ The concept being demonstrated here is **implicit return values**: Functions alw
 
 ### Iterators
 
-`array.prototype.forEach()`: This method is called directly on an array and executes a callbackFn for each element in the calling array. `forEach()` is functionally equivalent to a `for` or `while` loop but requires no start or end conditions.  It will always iterate through every iterable element of the calling array. `forEach()` can only cause side effects as it cannot pass an explicit return value and will always return `undefined`.  **This method does not mutate the caller.**
+`array.prototype.forEach()`: is an array iteration method which is called directly on an array and executes a callbackFn for each element in the calling array. `forEach()` is functionally equivalent to a `for` or `while` loop but requires no start or end conditions.  By default, it will iterate through every iterable element of the calling array, passing in each element as an argument to the callbackFn (this behavior can be modified by passing the optional currentIndex to the callback and combining it with other operations). `forEach()` can only cause side effects as it cannot pass an explicit return value and will always return `undefined`.  **This method does not mutate the caller.**
 
-`array.prototype.filter()`: This method is called directly on array and executes a callbackFn for each element in the calling array. The callbackFn of `filter()` evaluates a test condition to determine selection. For each element, if the test evaluates to true, the callbackFn returns the current value to `filter()` to be included as part of a **new array** returned to the caller. If no elements of the calling array pass the test, `filter` returns an empty array. **This method does not mutate the caller.**
+`array.prototype.filter()` is an array iteration and selection method which is called directly on array and executes a callbackFn for each element in the calling array. The callbackFn of `filter()` evaluates a test condition (the return statement) to determine selection.  For each element, if the test evaluates to true (callbackFn returns `true`), `filter()` adds the current element to a **new array** to be returned to the caller. If no elements of the calling array pass the test, `filter` returns an empty array. **This method does not mutate the caller.**
 
-`array.prototype.map()`: This method is called directly on an array and executes a callbackFn for each element in the calling array. The callbackFn of `map()` performas a transformation on each element passed to it and passes it back to `map()`.  Once every element has been iterated over, `map()` returns a **new array** to the caller, populated with the transformed values for each element of the calling array.  The return array is always equal in length to the calling array.  This also applies to sparse arrays. **This method does not mutate the caller.**
+`array.prototype.map()` is an array iteration and transformation method which is called directly on an array and executes a callbackFn for each element in the calling array. The callbackFn of `map()` performs a transformation on each element passed to it and passes it back to `map()`.  Once every element has been iterated over, `map()` returns a **new array** to the caller, populated with the transformed values for each element of the calling array.  The return array is always equal in length to the calling array.  This also applies to sparse arrays. **This method does not mutate the caller.**
 
-`array.prototype.reduce()`: This method is called directly on an array and executes a callbackFn for each element in the calling array, usually referred to as the *reducer*. The *reducer* (callbackFn) takes two arguments typically known as the *'accumulator'* or 'previousValue' and the *'currentValue'*.  The *accumulator* **stores the value of all elements that have been passed to the callbackFn so far and therefore have been 'reduced'**.  The current element is the element currently being iterated over by `reduce()`. `reduce()` accepts a second, optional *'previous value'* argument to initialize the reducer callbackFn with.  If no initial value is specified, the reducer **uses the value at `index 0` of the calling array as the previous value** and the v**alue at `index 1` as the current value**.  If an initial value is specified, `index 0` of the calling array is used as the current value on the first iteration.  Once all elements of the calling array have been iterated over, `reduce()` **returns a single value** based on the operations performed and the data type(s) of the calling array's elements. If the calling array contains **no elements** *and* an **initial value is not provided**, `reduce()` will throw a `TypeError`. **This method does not mutate the caller.**
+`array.prototype.reduce()` is an array iteration and computation method which is called directly on an array and executes a callbackFn for each element in the calling array, usually referred to as the *reducer*. The *reducer* (callbackFn) takes two arguments typically known as the *'accumulator'* or 'previousValue' and the *'currentValue'*.  The *accumulator* **stores the value of all elements that have been passed to the callbackFn so far and therefore have been 'reduced'**.  The current element is the element currently being iterated over by `reduce()`. `reduce()` accepts a second, optional *'previous value'* argument to initialize the reducer callbackFn with.  If no initial value is specified, the reducer **uses the value at `index 0` of the calling array as the previous value** and the v**alue at `index 1` as the current value**.  If an initial value is specified, `index 0` of the calling array is used as the current value on the first iteration.  Once all elements of the calling array have been iterated over, `reduce()` **returns a single value** based on the operations performed and the data type(s) of the calling array's elements. If the calling array contains **no elements** *and* an **initial value is not provided**, `reduce()` will throw a `TypeError`. **This method does not mutate the caller.**
 
-`array.prototype.some()`: This method is called directly on an array and executes a callbackFn once for each element in the calling array and compares the value passed in to a test condition. `some()` continues to test elements until finding a value that passes the test in which case the method **immediately** returns `true`. If no elements pass the test, `some()` returns `false`. **This method does not mutate the caller.**
+`array.prototype.some()` is an array search method which is called directly on an array and executes a callbackFn once for each element in the calling array and compares the value passed in to a test condition. `some()` continues to test elements until finding a value that passes the test in which case the method **immediately** returns `true`. If no elements pass the test, `some()` returns `false`. **This method does not mutate the caller.**
 
-`array.prototype.every()`: This method is called directly on an array and executes a callback function which contains a test condition once for each element in the calling array. If **any** element passed to the callbackFn's test condition evaluates to `false`, `every()` **immediately** returns `false`. Otherwise, it returns `true`. **This method does not mutate the caller.**
+`array.prototype.every()` is an array search method which is called directly on an array and executes a callback function which contains a test condition once for each element in the calling array. If **any** element passed to the callbackFn's test condition evaluates to `false`, `every()` **immediately** returns `false`. Otherwise, it returns `true`. **This method does not mutate the caller.**
 
-`array.prototype.find()`: This method is called directly on an array and executes a callbackFn once for each element in the calling array, comparing the value passed in to a test condition. `find()` returns the **value** of the **first element** in the calling array that satisfies the provided test condition. If a truthy value is not found `find()` returns `undefined`. **This method does not mutate the caller.**
+`array.prototype.find()` is an array search method which called directly on an array and executes a callbackFn once for each element in the calling array, comparing the value passed in to a test condition. `find()` returns the **value** of the **first element** in the calling array that satisfies the provided test condition. If a truthy value is not found `find()` returns `undefined`. **This method does not mutate the caller.**
 
-`array.prototype.findIndex()`: This method is called directly on an array and executes a callbackFn once for each element in the calling array, comparing the value passed in to a test condition. `findIndex()` returns the **index** of the **first element** in the calling array that satisfies the provided test condition. If no values satisfy the testing function, `-1` is returned.  **This method does not mutate the caller.**
+`array.prototype.findIndex()` is an array search method which is called directly on an array and executes a callbackFn once for each element in the calling array, comparing the value passed in to a test condition. `findIndex()` returns the **index** of the **first element** in the calling array that satisfies the provided test condition. If no values satisfy the testing function, `-1` is returned.  **This method does not mutate the caller.**
 
+## Common Object Methods
+
+### Iterators
+
+`for/in`:
+
+### Checking properties
+
+`object.prototype.hasOwnProperty()`: 
+
+### Converting to Arrays
+
+`Object.keys()`:
+
+`Object.values()`:
+
+`Object.entries()`:
+
+`Object.assign()`:
 
 # Practice Excercises
 
-## Scope 1: What does this code do and why?
+## Scope Example 1: Variable Scope
+
+What does this code do and why?
 
 ```js
 let b = 2;
@@ -148,7 +190,10 @@ Line 10 will throw a `referenceError: a is not defined`.
 
 The concept being demonstrated here is **variable scope**: in particular that inner (child) scopes **do have access** to outer (parent) scope variables but that outer (parent) scopes **do not have access** to inner (child) scope variables..  `b` is a global variable, and `a` is a parameter (local variable) of the function `test()`. So when `a` is reassigned the value of `b` on line 4, the function `test()` first looks for a local variable, then when it finds none, expands to the outer, global scope.  Since `b` is in the global scope, it can be used by both the function `test()` and the method `console.log()`.  However, when we attempt to access `a` on line 10 from a different function scope (`console.log()`), we are not able to see into the scope of the function `test()`, therefore a `referenceError` is thrown.
 
-## Scope 2: What does this code do and why?
+## Scope Example 2: Variable Scope & First Class Functions
+
+What does this code do and why?
+
 ```js
 let name = "John";
 
@@ -168,7 +213,9 @@ We start by declaring a variable `name` and initializing it to the value `"John"
 */
 
 
-## Scope 3: What does this code do and why?
+## Scope Example 3: Variable Shadowing & Call-By-Value
+
+What does this code do and why?
 
 ```js
 let dog = 'Bark';
@@ -195,7 +242,24 @@ The second concept demonstrated is **variable scope**: in particular **variable 
 
 On line 1, `dog` is a global variable and assigned the value `'Bark'`.  When it is passed into the function `dogCall()` via the **parameter** `dog`, because strings are **primitive**, it is passed in by value and a 'copy' of the value is assigned to the function's local variable `dog` which is wholly independent of the value held by the global `dog`.  The function `dogCall()` doesn't actually cause any side-effects because of **variable shadowing**.  Since the parameter `dog` has the same name as the global variable but its value is primitive, the function can never access the value of the global variable `dog`.  The concatenation performed is simply updating the parameter's value.  When the function exits, its local variable and the concatenation reassignment that it performed are unloaded from memory. So the function simply exits and returns `undefined`.  Thus when `dog` is logged, it logs the global variable's value of `"Bark"`. The value of global `dog` was never updated by `dogCall()` because of the shadowing.
 
-## Ref vs Val 1: What does this code do and why?
+## Scope Example 4: Variable Shadowing & TypeErrors
+
+```js
+const greeting = "Hello!";
+function change(greeting) {
+  greeting = "Hi!";
+  return greeting;
+}
+
+console.log(change());
+console.log(greeting);
+```
+
+### Answer: TBD
+
+## References vs Values Example 1: Pass-By-Reference
+
+What does this code do and why?
 
 ```js
 let foo = {
@@ -230,7 +294,9 @@ However, the value of `qux`, which is passed into `argument2` is a string which 
 
 This is why when logging `foo.a` the we find that `foo` has been mutated, with `foo.a`'s value being reassigned to `'hi`' but when logging `qux` the value is unchanged.
 
-## Rev vs Val 2: What does this code do and why?
+## References vs Values Example 2: Const & Object Mutability
+
+What does this code do and why?
 
 ```js
 const campus = { state: 'Boston', address: 'North Ave NW' };
@@ -241,6 +307,7 @@ const location = Object.freeze({ state: 'CA', country: 'US' });
 location.state = 'FL';
 console.log(location);
 ```
+
 ### Answer:
 Line 3 prints an object `{ state: 'Georgia', address: 'North Ave NW' }`.
 
@@ -251,7 +318,9 @@ The principle demonstrated here is the mutability of objects (variables as point
 Because the values being assigned to `campus` and `location` are both objects, they can still be read and written even though we are using `const` since what's being stored are references to the objects in memory, not the values themselves.  This is why on line 6, `campus.state` can be reassigned from `'Boston'` to `'Georgia'`. However when we pass the object on line 1 to the `Object` **static method** `freeze()`, we prevent JavaScript from being able to reassign any properties in that object even though it is a pointer, thus throwing a ```TypeError``.
 
 
-## Ref vs Val 3: What does this code do and why?
+## References vs Values Example 3: Pass-By-Reference, Shallow Copies, Implicit Return, Side Effects
+
+What does the following code do and why?  (complex++ problem)
 
 ```js
 const hottestTemps = [
@@ -297,9 +366,11 @@ The second concept being demonstrated here is **variables as pointers**: All obj
 
 On line 130 when `hottestTempsInF` is assigned the expression `toFahrenheit(hottestTemps)`, it would be natural to expect the value of `hottestTempsInF` to be a copy of the array passed to `toFahrenheit()` with the temps updated to Fahrenheit.  However, the function `toFahrenheit()` as declared on line 123 does not contain a **return** statement, so the return value of function expression assigned to the `const` `hottestTempsInF` is actually `undefined`.  Additionally, our input array is an array of **objects**. When we invoke `slice()` on line 123 of the function `toFarenheit()` to make a copy of the input array, we do create a new array, but that array is a **shallow copy**.  The objects referenced *inside the input array's elements are still shared with the original array*.  Therefore on line 130/131 when we would expect to print two different arrays because we assigned the expression `toFarhrenheit(hottestTemps)` to a new variable, what we find instead is that we have printed `undefined` and mutated the input array.
 
-## Iterators Example 1: Map & Filter
+## Iterators Example 1: array.prototype.map() & array.prototype.filter()
 
 Describe the difference between the array `map` and the `filter` method. When would you use each?
+
+### Answer:
 
 Both `map()` and `filter()` are called directly on array and execute a callbackFn for each element in the calling array.  Both methods return a **new** array (neither method mutates the caller).  Essentially, `filter()` is an array selection method and `map()` is an array transformation method.
 
@@ -307,7 +378,7 @@ The callbackFn of `map()` performas a transformation on each element passed to i
 
 The callbackFn of `filter()` evaluates each element's value against a test condition to determine which elements to select.  For each element, if the test evaluates to true, the callbackFn returns the current value to `filter()` to be included as part of the **new array** returned to the caller. If no elements of the calling array pass the test, `filter` returns an empty array.
 
-## Iterators Example 2: Map
+## Iterators Example 2: array.prototype.map()
 
 What does the following code do and why?
 
@@ -326,7 +397,28 @@ The callbackFn of `map()` performas a transformation on each element passed to i
 
 Because the `callbackFn` for `map()` is using arrow syntax with `{ }` you must include an **explicit return statement**.  Since the return statement was not included, `map()` instead returns the **implicit return value** of `undefined`.
 
-## Iterators Example 3: Filter
+## Iterators Example 3: array.prototype.map()
+
+What does this log and why?
+
+```js
+let words = [["hunter", "spear"], ["gatherer", "sack"]];
+
+function pluralize(array) {
+  return array.map(words => {
+    words[0] += "s";
+    words[1] += "s";
+    return words;
+  });
+}
+
+console.log(pluralize(words));
+console.log(words);
+```
+
+### Answer: TBD
+
+## Iterators Example 4: array.prototype.filter()
 
 ```js
 [1, 2, 3].filter(num => 'hi');
@@ -337,7 +429,66 @@ Line 329 returns a new array `[1, 2, 3]`
 
 The concept being demonstrated here is **implicit type coercion**
 
-`array.prototype.filter()` is called directly on array and executes a callbackFn for each element in the calling array. The callbackFn of `filter()` evaluates a test condition to determine selection.  For each element, if the test evaluates to true, the callbackFn returns the current value to `filter()` to be included as part of a **new array** returned to the caller. If no elements of the calling array pass the test, `filter` returns an empty array. **This method does not mutate the caller.**
+`array.prototype.filter()` is an array method for selection which is called directly on array and executes a callbackFn for each element in the calling array. The callbackFn of `filter()` evaluates a test condition (the return statement) to determine selection.  For each element, if the test evaluates to true (callbackFn returns `true`), `filter()` adds the current element to a **new array** to be returned to the caller. If no elements of the calling array pass the test, `filter` returns an empty array. **This method does not mutate the caller.**
 
-In order to assess which values to select, the string is coerced to `true`.  Since the test is always true on each invocation of the callbackFn each element is added to the returned array.
+In order to assess which values to select, the return statement of the callbackFn (string `'hi'`) is coerced to a `Boolean`. All non-empty strings are `truthy` (coerce to `true`) so the return value of the callbackFn is `true`.  Since the test is **always** true regardless of argument passed to callbackFn, on each invocation of the callbackFn the element is added to the returned array.
 
+## Objects Example 1: Object Dot Notation vs Bracket Notation
+
+What do these two snippets log and why?
+
+```js
+// Snippet 1
+let ocean = {};
+let prefix = 'Indian';
+
+ocean.prefix = 'Pacific';
+
+console.log(ocean); // ?
+
+// Snippet 2
+let ocean = {};
+let prefix = 'Indian';
+
+ocean[prefix] = 'Pacific';
+
+console.log(ocean); // ?
+```
+
+## Answer:
+
+snippet 1 prints:  { prefix: ‘Pacific’ }
+snippet 2 prints:  { Indian: ‘Pacific’ }
+
+The concept being demonstrated here is **assignment** via **object dot notation** vs **object bracket notation**
+
+When an object property is accessed via dot notation, the property being accessed or assigned is a property with a key named the literal value written after the dot.  In this case a property of the object `ocean` with a property key name of `prefix`. What is assigned to that key name on line 4 is the value `'Pacific'` resulting in a key-value pair of `prefix = "Pacific"`.
+
+In snippet 2, we are instead using bracket notation, which less us pass the value of a variable into the object thus changing the assignment of the key name from `prefix` to the value assigned to prefix which is `'Indian'`.  So on line 4 when we assign `ocean[prefix] = 'Pacific'` we end up with a key value pair of `Indian: 'Pacific'`
+
+## Objects Example 2: Bracket Notation & Variables
+
+What does this code return and why?
+
+```js
+let person = {              // line 1
+  name: 'Jane',
+  age: 24                   // line 3
+}                           // line 4
+
+function changeName(name) { // line 6
+  person[name] = name;
+  console.log(person);      // line 8
+  return person;
+}                           // line 10
+
+changeName('Jessie');       // line 12
+```
+
+Line 12 returns: { name: 'Jane', age: 24, Jessie: 'Jessie' }
+
+The concept being demonstrated here is object bracket notation syntax, specifically handling key names assigned to variables.
+
+Object `properties` are key-value pairs where the `keys` are strings and the `values` can be any type of data.  There are two ways to access or assign values to object properties:  `Dot notation` and `bracket notation`.
+
+On line 7 when we re-assign `person[name]` to the argument passed to the function `changeName()`'s parameter `name` what we're actually doing is declaring a new property of the object `person` with a key-name of the **VALUE** assigned to the parameter `name`.  If the line was written with name in quotes: `'name'`, it would work as expected, accessing the `name` property of the `person` object. But because the quotes have been omitted we're instead accessing the value of the name parameter of `changeName()`. Literally, that reassignment expression could rewritten as:  `person.Jessie = 'Jessie'` because the argument passed to `changeName()` on line twelve is being used for **both** the key name and the key value.
