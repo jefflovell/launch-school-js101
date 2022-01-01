@@ -132,3 +132,12 @@ function differenceOfTwo(nums) {
 }
 ```
 
+[1, 2, 3].filter(num => 'hi');
+
+This code returns a new array: [1, 2, 3];
+
+The concept being described here is implicit type coercion. 'Hi' is being coerced to `true`
+
+array.prototype.filter() is an array method for selection which is called directly on array and executes a callbackFn for each element in the calling array. The callbackFn of filter() evaluates a test condition to determine selection. For each element, if the test evaluates to true, the callbackFn returns the current value to filter() to be included as part of a new array returned to the caller. If no elements of the calling array pass the test, filter returns an empty array. This method does not mutate the caller.
+
+Because the test condition is always true due to implicit coercion, all elements pass the test and are added to the return array. 
